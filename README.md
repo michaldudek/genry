@@ -1,4 +1,4 @@
-genry
+Genry
 =====
 
-Static page generator in PHP and Twig.
+Static page generator that uses Twig.

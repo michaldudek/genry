@@ -1,0 +1,23 @@
+{
+    "name": "michaldudek/genry",
+    "description": "Static page generator that uses Twig.",
+    "keywords": ["generator", "static", "twig", "html"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michał Dudek",
+            "email": "michal@michaldudek.pl"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "splot/framework": "dev-master",
+        "splot/assets-module": "dev-master",
+        "splot/twig-module": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "MD\\Genry": "src/"
+        }
+    }
+}
