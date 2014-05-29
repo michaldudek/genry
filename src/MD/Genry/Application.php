@@ -28,7 +28,8 @@ class Application extends AbstractApplication
             'config_dir' => $applicationDir .'config'. DS,
             'cache_dir' => $applicationDir .'.cache'. DS,
             'web_dir' => $applicationDir,
-            'templates_dir' => $applicationDir .'_templates'. DS
+            'templates_dir' => $applicationDir .'_templates'. DS,
+            'data_dir' => $applicationDir .'_data'. DS
         );
     }
 
