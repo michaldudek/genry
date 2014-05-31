@@ -44,7 +44,7 @@ class GenryModule extends AbstractModule
         });
 
         $this->container->set('markdown.twig_extension', function($c) {
-            return new MarkdownTwigExtension($c->get('markdown'));
+            return new MarkdownTwigExtension($c->get('markdown'), $c->getParameter('templates_dir'));
         });
 
         $this->container->set('genry', function($c) {
