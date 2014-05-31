@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "michaldudek/genry": "~0.1"
+        "michaldudek/genry": "dev-master"
     },
     "minimum-stability": "dev",
     "config": {
