@@ -1,3 +1,5 @@
+.genry/
+.cache/
 composer.lock
 /vendor/
 /tests/coverage/
