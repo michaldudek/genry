@@ -1,1 +1,1 @@
-composer create-project michaldudek/genry-project ./genry -s dev
+Please visit [http://www.michaldudek.pl/genry/](http://www.michaldudek.pl/genry/).
