@@ -13,7 +13,8 @@
         "php": ">=5.3.3",
         "splot/framework": "dev-master",
         "splot/assets-module": "dev-master",
-        "splot/twig-module": "dev-master"
+        "splot/twig-module": "dev-master",
+        "michelf/php-markdown": "1.3.*@dev"
     },
     "autoload": {
         "psr-0": {

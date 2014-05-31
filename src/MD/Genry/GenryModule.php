@@ -6,6 +6,8 @@ use Splot\Framework\Modules\AbstractModule;
 use MD\Genry\Genry;
 use MD\Genry\Data\Loader;
 use MD\Genry\Data\LoaderTwigExtension;
+use MD\Genry\Markdown\Markdown;
+use MD\Genry\Markdown\MarkdownTwigExtension;
 use MD\Genry\Templating\TemplateLoader;
 use MD\Genry\Templating\TwigEngine;
 
@@ -37,6 +39,14 @@ class GenryModule extends AbstractModule
             return new LoaderTwigExtension($c->get('data.loader'));
         });
 
+        $this->container->set('markdown', function($c) {
+            return new Markdown();
+        });
+
+        $this->container->set('markdown.twig_extension', function($c) {
+            return new MarkdownTwigExtension($c->get('markdown'));
+        });
+
         $this->container->set('genry', function($c) {
             return new Genry(
                 $c->get('templating'),
@@ -52,7 +62,9 @@ class GenryModule extends AbstractModule
         parent::run();
 
         if ($this->container->has('twig')) {
-            $this->container->get('twig')->addExtension($this->container->get('data.loader.twig_extension'));
+            $twig = $this->container->get('twig');
+            $twig->addExtension($this->container->get('data.loader.twig_extension'));
+            $twig->addExtension($this->container->get('markdown.twig_extension'));
         }
     }
 
