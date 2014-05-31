@@ -1,0 +1,10 @@
+{
+  "name": "Genry Project",
+  "version": "0.0.0",
+  "dependencies": {
+    "jquery": "~2.1",
+    "bootstrap": "~3.0",
+    "font-awesome": "~4.0"
+  },
+  "devDependencies": {}
+}

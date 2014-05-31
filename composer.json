@@ -1,0 +1,19 @@
+{
+    "name": "michaldudek/genry-project",
+    "description": "Project setup for Genry Static Page Generator.",
+    "keywords": ["genry", "static", "page", "html", "skeleton", "project"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michał Dudek",
+            "email": "michal@michaldudek.pl"
+        }
+    ],
+    "require": {
+        "michaldudek/genry": "~0.1"
+    },
+    "minimum-stability": "dev",
+    "config": {
+        "vendor-dir": ".genry"
+    }
+}

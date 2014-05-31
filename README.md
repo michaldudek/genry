@@ -1,0 +1,1 @@
+composer create-project michaldudek/genry-project ./genry -s dev
