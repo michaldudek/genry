@@ -11,6 +11,8 @@ Use cases include:
 
 It's perfect for people who don't have experience with building dynamic websites in server side languages, but want to ease their website building process by eliminating copy/paste code (like navigation HTML) or want to make use of powerful templating language.
 
+Visit [http://www.michaldudek.pl/genry/](http://www.michaldudek.pl/genry/).
+
 ## TL;DR
 
 - Get [Composer](https://getcomposer.org).
