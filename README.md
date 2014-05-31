@@ -13,12 +13,15 @@ It's perfect for people who don't have experience with building dynamic websites
 
 ## TL;DR
 
-- Get [Composer](https://getcomposer.org)
-- Run `$ composer create-project michaldudek/genry-project suchwebsite -s dev` to start a Genry project in `suchwebsite` dir
-- Inside that dir run `$ php genry generate` to generate HTML files from [Twig templates](http://twig.sensiolabs.org/) located in `_templates` dir
+- Get [Composer](https://getcomposer.org).
+- Run `$ composer create-project michaldudek/genry-project suchwebsite -s dev` to start a Genry project in `suchwebsite` dir.
+- Use  [Twig templates](http://twig.sensiolabs.org/) to create your website.
+- Put all your templates inside `_templates` directory.
+- Run `$ php genry generate` to generate static HTML files.
 - In templates:
+	- When including/extending templates refer to them relative to the `_templates` dir, e.g. `{{ include "subdir/content.html.twig" }}` for including `_templates/subdir/content.html.twig`.
 	- Use `{{ stylesheet('assets/css/global.css') }}` and `{{ javascript('assets/js/global.js') }}` to add CSS and JS files and `{{ stylesheets() }}` and `{{ javascripts() }}` to output them to make sure their URL is always correct and relative to the generated page
-	- Import Markdown files using `{{ markdown('path/to/file/in/_templates/dir') }}`
+	- Import Markdown files using `{{ markdown('path/to/file/in/_templates/article.md') }}`
 - Templates that filenames end with `.inc.html.twig` are not rendered directly into HTML files (they are only to be included by other templates)
 
 ## More information
@@ -44,9 +47,9 @@ Genry is built in with [Splot Framework](https://github.com/splot/Framework) (to
 
 ## Requirements
 
-Genry requires PHP 5.3+ command line environment to run which means that it runs just fine on Mac OS X and Linux (*I have no idea about Windows*).
+Genry requires **PHP 5.3+ command line** environment to run which means that it runs just fine on Mac OS X and Linux (*I have no idea about Windows, sorry...*).
 
-It also requires PHP's package manager - [Composer](https://getcomposer.org/). To install Composer follow [their instructions](https://getcomposer.org/doc/00-intro.md#installation-nix), but in short it's this:
+It also requires PHP's package manager -**[Composer](https://getcomposer.org/)**. To install Composer follow [their instructions](https://getcomposer.org/doc/00-intro.md#installation-nix), but in short it's this:
 
 ```
 curl -sS https://getcomposer.org/installer | php
@@ -86,19 +89,151 @@ If you ever wanted to update Genry to newer version or install it for a Genry pr
 
 ## Usage
 
-inc.html.twig
+By default all templates are stored inside the `_templates` dir so that they don't pollute the root dir and are clearly separated from the generated HTML files. Any `*.html.twig` files inside that dir (and its subdirs) will be compiled and turned to static HTML files inside the root folder of the project. The directory structure from inside `_templates` will be kept, e.g.
 
+- `./_templates/index.html.twig` will compile to `./index.html`
+- `./_templates/subdir/index.html.twig` will compile to `./subdir/index.html`
+- `./_templates/subdir/contents.html.twig` will compile to `./subdir/contents.html`
 
-### Use markdown
+One exception to this rule are files that end with `*.inc.html.twig` - these will not be compiled. Their only purpose is to be included inside other templates.
+
+When you include or extend other templates in Twig, always specify their locations relative to the `_templates` directory. 
+
+So, if you have a directory structure like this:
+
+```
+_templates/
+	slides/
+    	project1.inc.html.twig
+        project2.inc.html.twig
+	layout/
+    	header.inc.html.twig
+        footer.inc.html.twig
+	index.html.twig
+	layout.inc.html.twig
+assets/
+	...
+composer.lock
+composer.json
+genry
+```
+
+Your `index.html.twig` template should refer to all other templates like this:
+
+```
+{% extends "layout.inc.html.twig" %}
+
+{% block body %}
+	{% include "layout/header.html.twig" %}
+
+	<section>
+    	{% include "project1.inc.html.twig" %}
+    </section>
+    <section>
+    	{% include "project2.inc.html.twig" %}
+	</section>
+
+    {% include "layout/footer.html.twig" %}
+{% endblock %}
+```
+
+**Always** refer to templates relative to the `_templates/` dir, even from templates next to each other in the same sub directory.
+
+### Compiling
+
+When you have created your templates compile them by executing this command in the command line in your project folder:
+
+```
+$ php genry generate
+```
+
+### Assets management
+
+Because the generated HTML files will be saved in different locations relative to the root dir while probably extending a single layout template and because your website might not always live in the root dir of your domain (think GitHub project pages which are located at `http://username.github.io/projectname/`) using relative or absolute paths to your JavaScript and CSS files might cause a lot of problems.
+
+For example, if your `_templates/layout.inc.html.twig` file includes assets like this:
+
+```
+<link rel="stylesheet" href="/assets/css/global.css">
+<script type="text/javascript" src="/assets/js/global.js"></script>
+```
+
+It will only work if your website resides in root folder of your domain. If you were to put it in a subdir, e.g. at `yourdomain.com/suchwebsite/` links to the assets would be broken.
+
+However, if you change them to be relative:
+
+```
+<link rel="stylesheet" href="assets/css/global.css">
+<script type="text/javascript" src="assets/js/global.js"></script>
+```
+
+This will only work for files that are located in the root dir of your website. If you made a template `_templates/subdir/article.html.twig`:
+
+```
+{% extends "layout.inc.html.twig" %}
+
+{% block content %}
+	Lorem ipsum dolor sit amet.
+{% endblock %}
+```
+
+It will compile to a file `subdir/article.html` and the relativeassets links will also be broken for this one page.
+
+Genry takes care of these two problems if you let him.
+
+Wherever you want to add a CSS or JS file use this notation:
+
+```
+{{ stylesheet('/path/to/css/relative/to/project/dir.css') }}
+{{ javascript('/path/to/js/relative/to/project/dir.js') }}
+```
+
+And to output all CSS files (typically in `<head>`):
+
+```
+{{ stylesheets() }}
+```
+
+And JS files (typically right before `</body>`):
+
+```
+{{ javascripts() }}
+```
+
+The result will be that Genry will generate URL's to those assets always relative to the generated static HTML file. This way your generated files can safely be put at whatever location on your server as well as opened locally straight from the file system.
+
+## Features
+
+Genry comes with few pre-packaged features that don't require any additional modules.
+
+### Markdown
+
+If you want to write your content in Markdown (like this documentation) you can easily import and compile Markdown files inside your templates by simply writing:
+
+```
+{{ markdown('path/to/file/in/templates/article.md') }}
+```
+
+You can also use a Markdown filter:
+
+```
+{{ "[such website](http://www.dogeweather.com), **much markdown**, such HTML."|markdown }}
+```
 
 ### Data objects
 
-## Assets management
+TBD
 
 ## Roadmap
 
+Genry is very much **work in progress** and the core of it has been created in one (albeit long) evening. There are many ideas and features that could be developed for it, but I want to keep it simple. Here is a list of features that are on the roadmap for the nearest future (ie. when need be):
+
 - More documentation including some recipes, examples and "built with Genry" section as well as information on how to create your own modules.
-- Watching the project for changes and auto regenerating the pages
-- Minification of CSS and JS files
+- Watching the project for changes and auto regenerating the pages.
+- Minification of CSS and JS files (reusing what is already in Splot Assets Module).
 
 ## Contribute
+
+Pull requests, reported issues and any help is welcome. Just keep in mind that this is a strongly personal project and I might have already started working on something that you wanted to do, so before doing any coding work please submit an issue with your idea for discussion.
+
+If you want to develop something for Genry then I will be very happy to help, as there isn't much documentation on this topic yet. Just open an issue and I'll reply to it.
