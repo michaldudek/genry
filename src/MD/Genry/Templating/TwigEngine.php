@@ -4,8 +4,6 @@ namespace MD\Genry\Templating;
 use Twig_Environment;
 
 use Splot\Framework\Templating\TemplatingEngineInterface;
-use Splot\AssetsModule\Assets\AssetsContainer\JavaScriptContainer;
-use Splot\AssetsModule\Assets\AssetsContainer\StylesheetContainer;
 
 class TwigEngine implements TemplatingEngineInterface
 {
@@ -18,32 +16,12 @@ class TwigEngine implements TemplatingEngineInterface
     protected $twig;
 
     /**
-     * JavaScript container service.
-     * 
-     * @var JavaScriptContainer
-     */
-    protected $javascripts;
-
-    /**
-     * Stylesheets container service.
-     * 
-     * @var StylesheetContainer
-     */
-    protected $stylesheets;
-
-    /**
      * Constructor.
      * 
      * @param Twig_Environment $twig Twig engine.
      */
-    public function __construct(
-        Twig_Environment $twig,
-        JavaScriptContainer $javascripts,
-        StylesheetContainer $stylesheets
-    ) {
+    public function __construct(Twig_Environment $twig) {
         $this->twig = $twig;
-        $this->javascripts = $javascripts;
-        $this->stylesheets = $stylesheets;
     }
 
     /**
@@ -54,13 +32,7 @@ class TwigEngine implements TemplatingEngineInterface
      * @return string
      */
     public function render($view, array $data = array()) {
-        $output = $this->twig->render($view, $data);
-
-        // inject assets to it
-        $output = str_replace($this->javascripts->getPlaceholder(), $this->javascripts->printAssets(), $output);
-        $output = str_replace($this->stylesheets->getPlaceholder(), $this->stylesheets->printAssets(), $output);
-
-        return $output;
+        return $this->twig->render($view, $data);
     }
 
 }

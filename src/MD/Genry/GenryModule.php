@@ -4,8 +4,10 @@ namespace MD\Genry;
 use Splot\Framework\Modules\AbstractModule;
 
 use MD\Genry\Genry;
+use MD\Genry\Assets\AssetsInjector;
 use MD\Genry\Data\Loader;
 use MD\Genry\Data\LoaderTwigExtension;
+use MD\Genry\Events\PageRendered;
 use MD\Genry\Markdown\Markdown;
 use MD\Genry\Markdown\MarkdownTwigExtension;
 use MD\Genry\Templating\TemplateLoader;
@@ -24,10 +26,14 @@ class GenryModule extends AbstractModule
 
         // overwrite templating service
         $this->container->set('templating', function($c) {
-            return new TwigEngine(
-                $c->get('twig'),
+            return new TwigEngine($c->get('twig'));
+        });
+
+        $this->container->set('genry.assets_injector', function($c) {
+            return new AssetsInjector(
                 $c->get('javascripts'),
-                $c->get('stylesheets')
+                $c->get('stylesheets'),
+                $c->getParameter('web_dir')
             );
         });
 
@@ -50,8 +56,7 @@ class GenryModule extends AbstractModule
         $this->container->set('genry', function($c) {
             return new Genry(
                 $c->get('templating'),
-                $c->get('javascripts'),
-                $c->get('stylesheets'),
+                $c->get('event_manager'),
                 $c->getParameter('templates_dir'),
                 $c->getParameter('web_dir')
             );
@@ -61,11 +66,17 @@ class GenryModule extends AbstractModule
     public function run() {
         parent::run();
 
-        if ($this->container->has('twig')) {
-            $twig = $this->container->get('twig');
-            $twig->addExtension($this->container->get('data.loader.twig_extension'));
-            $twig->addExtension($this->container->get('markdown.twig_extension'));
+        $container = $this->container;
+
+        if ($container->has('twig')) {
+            $twig = $container->get('twig');
+            $twig->addExtension($container->get('data.loader.twig_extension'));
+            $twig->addExtension($container->get('markdown.twig_extension'));
         }
+
+        $container->get('event_manager')->subscribe(PageRendered::getName(), function($event) use ($container) {
+            $container->get('genry.assets_injector')->onPageRendered($event);
+        });
     }
 
 }

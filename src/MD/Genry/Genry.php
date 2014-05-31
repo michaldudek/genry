@@ -5,10 +5,10 @@ use SplFileInfo;
 
 use MD\Foundation\Exceptions\NotFoundException;
 
+use Splot\EventManager\EventManager;
 use Splot\Framework\Templating\TemplatingEngineInterface;
-use Splot\AssetsModule\Assets\AssetsContainer\JavaScriptContainer;
-use Splot\AssetsModule\Assets\AssetsContainer\StylesheetContainer;
 
+use MD\Genry\Events\PageRendered;
 use MD\Genry\Page;
 
 class Genry
@@ -17,18 +17,15 @@ class Genry
     protected $templating;
 
     /**
-     * JavaScript container service.
+     * Splot event manager.
      * 
-     * @var JavaScriptContainer
+     * @var EventManager
      */
-    protected $javascripts;
+    protected $eventManager;
 
-    /**
-     * Stylesheets container service.
-     * 
-     * @var StylesheetContainer
-     */
-    protected $stylesheets;
+    protected $templatesDir;
+
+    protected $webDir;
 
     /**
      * Page generation queue.
@@ -37,20 +34,14 @@ class Genry
      */
     protected $queue = array();
 
-    protected $templatesDir;
-
-    protected $webDir;
-
     public function __construct(
         TemplatingEngineInterface $templating,
-        JavaScriptContainer $javascripts,
-        StylesheetContainer $stylesheets,
+        EventManager $eventManager,
         $templatesDir,
         $webDir
     ) {
         $this->templating = $templating;
-        $this->javascripts = $javascripts;
-        $this->stylesheets = $stylesheets;
+        $this->eventManager = $eventManager;
         $this->templatesDir = $templatesDir;
         $this->webDir = $webDir;
     }
@@ -67,6 +58,12 @@ class Genry
 
         $output = $this->templating->render($page->getTemplateName(), $page->getParameters());
 
+        // trigger event
+        $event = new PageRendered($page, $output);
+        $this->eventManager->trigger($event);
+        // update the final output with the output from the event
+        $output = $event->getOutput();
+
         // make sure that the dir the output will be saved, exists
         $outputDir = $page->getOutputFile()->getPath();
         if (!is_dir($outputDir)) {
@@ -74,9 +71,6 @@ class Genry
         }
 
         file_put_contents($page->getOutputFile()->getPathname(), $output);
-
-        $this->javascripts->clearAssets();
-        $this->stylesheets->clearAssets();
 
         return $output;
     }
