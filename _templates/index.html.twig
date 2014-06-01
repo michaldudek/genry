@@ -1,5 +1,127 @@
 {% extends "layout.inc.html.twig" %}
 
+{% block header %}
+    <header id="big-header">
+        <div class="genry-icon"><i class="fa fa-code"></i></div>
+        <h1>Genry</h1>
+        <h2>Static page generator that uses Twig templating system.</h2>
+    </header>
+{% endblock %}
+
 {% block content %}
-    {{ markdown('../.genry/michaldudek/genry/README.md') }}
+    <section id="use-cases">
+        <div class="row">
+            <div class="col-md-4 callout">
+                <i class="icon fa fa-file-code-o"></i>
+                <h3>Local HTML</h3>
+                <p>Ideal when you want to create a lot of HTML files that will be loaded directly from the file system, e.g. downloadable documentation.</p>
+            </div>
+            <div class="col-md-4 callout">
+                <i class="icon fa fa-cloud-upload"></i>
+                <h3>No Scripting Language</h3>
+                <p>Whenever you need to use a hosting environment where no server side language like PHP or Python or Ruby is available, e.g. Rackspace Cloud Files, Amazon S3 or other CDN.</p>
+            </div>
+            <div class="col-md-4 callout">
+                <i class="icon fa fa-github"></i>
+                <h3>GitHub Pages</h3>
+                <p>Perfect for creating GitHub Pages for yourself or your open source projects.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="fit">
+        <div class="container">
+            <p>Genry is a natural fit for people with <u>no experience with building dynamic websites</u> in server side languages, but want to ease their website building process by <u>eliminating copy/paste</u> code (like navigation HTML) or want to make use of a <u>powerful templating language.</u></p>
+        </div>
+    </section>
+
+    <section id="use">
+        <div class="container">
+<pre><code>$ composer create-project michaldudek/genry-project suchwebsite -s dev
+$ cd suchwebsite
+$ php genry generate</code></pre>
+        </div>
+    </section>
+
+    <section id="cta">
+        <div class="container">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="docs.html" class="btn btn-lg btn-default btn-block">Documentation</a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="https://github.com/michaldudek/genry" target="_blank" class="btn btn-lg btn-success btn-block">Source Code</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="more">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-2">
+                    <section id="more-info">
+                        <h4>More Information:</h4>
+                        <ol>
+                            <li><a href="docs.html#top">Overview</a></li>
+                            <li><a href="docs.html#tldr">TL;DR</a></li>
+                            <li><a href="docs.html#moreinfo">More Information</a>
+                                <ol>
+                                    <li><a href="docs.html#markdown">Write content in Markdown</a></li>
+                                    <li><a href="docs.html#templating">Templating</a></li>
+                                    <li><a href="docs.html#extensibility">Extensibility</a></li>
+                                </ol>
+                            </li>
+                            <li><a href="docs.html#installation">Installation</a>
+                                <ol>
+                                    <li><a href="docs.html#requirements">Updating and re-installing</a></li>
+                                </ol>
+                            </li>
+                            <li><a href="docs.html#usage">Usage</a>
+                                <ol>
+                                    <li><a href="docs.html#compiling">Compiling</a></li>
+                                    <li><a href="docs.html#assets">Assets Management</a></li>
+                                </ol>
+                            </li>
+                            <li><a href="docs.html#features">Features</a>
+                                <ol>
+                                    <li><a href="docs.html#markdown-feature">Markdown</a></li>
+                                    <li><a href="docs.html#data">Data Objects</a></li>
+                                </ol>
+                            </li>
+                            <li><a href="docs.html#roadmap">Roadmap</a></li>
+                            <li><a href="docs.html#contribute">Contribute</a></li>
+                        </ol>
+                    </section>
+                </div>
+
+                <div class="col-md-6">
+                    <section id="tldr">
+                        <h4>Quick Overview:</h4>
+                        {% verbatim %}
+                            <ul>
+                                <li>Get PHP's <a href="https://getcomposer.org">Composer</a>.</li>
+                                <li>Run <code>$ composer create-project michaldudek/genry-project suchwebsite -s dev</code> to start a Genry project in <code>suchwebsite</code> dir.</li>
+                                <li>Use  <a href="http://twig.sensiolabs.org/">Twig templates</a> to create your website.</li>
+                                <li>Put all your templates inside <code>_templates</code> directory.</li>
+                                <li>Run <code>$ php genry generate</code> to generate static HTML files.</li>
+                                <li>In templates:
+                                    <ul>
+                                        <li>When including/extending templates refer to them relative to the <code>_templates</code> dir, e.g. <code>{{ include "subdir/content.html.twig" }}</code> for including <code>_templates/subdir/content.html.twig</code>.</li>
+                                        <li>Use <code>{{ stylesheet('assets/css/global.css') }}</code> and <code>{{ javascript('assets/js/global.js') }}</code> to add CSS and JS files and <code>{{ stylesheets() }}</code> and <code>{{ javascripts() }}</code> to output them to make sure their URL is always correct and relative to the generated page</li>
+                                        <li>Import Markdown files using <code>{{ markdown('path/to/file/in/_templates/article.md') }}</code></li>
+                                    </ul>
+                                </li>
+                                <li>Templates that filenames end with <code>.inc.html.twig</code> are not rendered directly into HTML files (they are only to be included by other templates)</li>
+                            </ul>
+                        {% endverbatim %}
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {#{ markdown('../.genry/michaldudek/genry/README.md') }#}
 {% endblock %}

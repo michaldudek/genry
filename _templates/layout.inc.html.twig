@@ -12,9 +12,10 @@
         <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.0.8/es5-shim.min.js"></script>
     <![endif]-->
 
-    {{ stylesheet('/assets/css/lib/bootstrap.css', 'lib') }}
-    {#{ stylesheet('/assets/css/lib/font-awesome.css', 'lib') }#}
-    {#{ stylesheet('/assets/css/global.css', 'app') }#}
+    {{ stylesheet('//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css', 'lib') }}
+    {{ stylesheet('//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css', 'lib') }}
+
+    {{ stylesheet('/assets/css/global.css', 'app') }}
 
     {{ stylesheets() }}
 </head>
@@ -24,13 +25,28 @@
     <a href="https://github.com/michaldudek/genry" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
 
     {% block body %}
-        <div class="container">
-            {% block content %}
-            {% endblock %}
-        </div>
+        {% block header %}
+            <header id="header">
+                <div class="container">
+                    <h1><i class="fa fa-code"></i> Genry</h1>
+                    <h2>Static page generator that uses Twig templating system.</h2>
+                </div>
+            </header>
+        {% endblock %}
+
+        {% block content %}
+        {% endblock %}
+
+        {% block footer %}
+            <footer id="footer">
+                <div class="container">
+                    <p>Genry was created by <a href="http://www.michaldudek.pl" target="_blank">Michał Dudek</a> in Wrocław, Poland during one long night.</p>
+                    <p>Copyright &copy; Michał Dudek 2014. Genry is released under MIT license.</p>
+                </div>
+            </footer>
+        {% endblock %}
     {% endblock %}
 
-    {#{ javascript('/assets/components/jquery/dist/jquery.min.js', 'lib') }#}
     {#{ javascript('/assets/js/global.js', 'app') }#}
 
     {{ javascripts() }}

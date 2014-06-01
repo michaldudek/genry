@@ -1,3 +1,4 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,800);
 /*---------------------------------------------------
     LESS Elements 0.9-genry
   ---------------------------------------------------
@@ -5,6 +6,125 @@
     More info at: http://lesselements.com
   ---------------------------------------------------
     Modified for Genry                            */
+#big-header {
+  overflow: hidden;
+  width: 100%;
+  min-height: 500px;
+  padding-top: 35px;
+  background: #df5c2d url(../images/oranje.jpg) no-repeat center center;
+  background-size: cover;
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+#big-header .genry-icon {
+  font-size: 124px;
+}
+#big-header h1 {
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin-top: 0;
+  font-size: 72px;
+  font-weight: 800;
+}
+#big-header h2 {
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.1rem;
+}
+#header {
+  overflow: hidden;
+  width: 100%;
+  min-height: 100px;
+  padding: 20px 0;
+  padding-bottom: 30px;
+  background: #df5c2d url(../images/oranje.jpg) no-repeat bottom center;
+  background-size: cover;
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+#header .genry-icon {
+  font-size: 50px;
+}
+#header h1 {
+  display: inline-block;
+  font-size: 32px;
+  font-weight: 800;
+  margin-top: 0;
+}
+#header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 300;
+  text-shadow: none;
+  letter-spacing: 0.1rem;
+}
+#use-cases {
+  padding: 50px 0;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: #f5f5f5;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  color: #555;
+}
+#use-cases .callout .icon {
+  font-size: 72px;
+}
+#use-cases .callout h3 {
+  font-weight: 400;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+#use-cases .callout p {
+  padding: 0 60px;
+  color: #666;
+}
+#fit {
+  padding: 40px 0;
+}
+#fit p {
+  padding: 0 100px;
+  text-align: center;
+  font-size: 18px;
+  color: #555;
+  line-height: 2;
+}
+#fit u {
+  text-decoration: none;
+  border-bottom: 1px solid #888;
+}
+#use {
+  padding-bottom: 60px;
+}
+#use pre {
+  max-width: 600px;
+  margin: 0 auto;
+}
+#cta {
+  padding-bottom: 60px;
+}
+#docs {
+  margin-top: 50px;
+}
+#footer {
+  width: 100%;
+  margin-top: 50px;
+  min-height: 100px;
+  padding: 30px 0;
+  background: #df5c2d;
+  color: white;
+}
+#footer p {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 300;
+  text-align: center;
+  letter-spacing: 0.1rem;
+}
+#footer p a {
+  color: white;
+  border-bottom: 1px solid white;
+}
 /*****************************************
  * RESPONSIVENESS (mobile first)
  *****************************************/
