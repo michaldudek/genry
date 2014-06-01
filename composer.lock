@@ -236,12 +236,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/michaldudek/genry.git",
-                "reference": "adc3df5bc3751bd6be14f87dba6bf232d2c961a2"
+                "reference": "70d4df64ba43c8680c50a4a941707260cdd97dc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michaldudek/genry/zipball/adc3df5bc3751bd6be14f87dba6bf232d2c961a2",
-                "reference": "adc3df5bc3751bd6be14f87dba6bf232d2c961a2",
+                "url": "https://api.github.com/repos/michaldudek/genry/zipball/70d4df64ba43c8680c50a4a941707260cdd97dc3",
+                "reference": "70d4df64ba43c8680c50a4a941707260cdd97dc3",
                 "shasum": ""
             },
             "require": {
@@ -274,7 +274,7 @@
                 "static",
                 "twig"
             ],
-            "time": "2014-05-31 15:55:49"
+            "time": "2014-06-01 00:06:42"
         },
         {
             "name": "michelf/php-markdown",

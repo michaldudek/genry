@@ -6,10 +6,13 @@
     More info at: http://lesselements.com
   ---------------------------------------------------
     Modified for Genry                            */
+#gh-fork {
+  display: none;
+}
 #big-header {
   overflow: hidden;
   width: 100%;
-  min-height: 500px;
+  min-height: 400px;
   padding-top: 35px;
   background: #df5c2d url(../images/oranje.jpg) no-repeat center center;
   background-size: cover;
@@ -18,16 +21,17 @@
   text-align: center;
 }
 #big-header .genry-icon {
-  font-size: 124px;
+  font-size: 84px;
 }
 #big-header h1 {
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   margin-top: 0;
-  font-size: 72px;
+  font-size: 42px;
   font-weight: 800;
 }
 #big-header h2 {
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  padding: 0 15px;
   font-weight: 300;
   letter-spacing: 0.1rem;
 }
@@ -83,7 +87,7 @@
   padding: 40px 0;
 }
 #fit p {
-  padding: 0 100px;
+  padding: 0 10px;
   text-align: center;
   font-size: 18px;
   color: #555;
@@ -102,6 +106,9 @@
 }
 #cta {
   padding-bottom: 60px;
+}
+#cta .btn {
+  margin-bottom: 15px;
 }
 #docs {
   margin-top: 50px;
@@ -130,6 +137,32 @@
  *****************************************/
 /* above iPhone landscape */
 /* iPad and above */
+@media screen and (min-width: 768px) {
+  #gh-fork {
+    display: inline-block;
+  }
+  #big-header {
+    min-height: 500px;
+  }
+  #big-header .genry-icon {
+    font-size: 124px;
+  }
+  #big-header h1 {
+    font-size: 72px;
+  }
+  #header .genry-icon {
+    font-size: 50px;
+  }
+  #header h1 {
+    font-size: 32px;
+  }
+  #header h2 {
+    font-size: 18px;
+  }
+  #fit p {
+    padding: 0 100px;
+  }
+}
 /* iPad landscape and above */
 /* old computers and above */
 /* 13" laptops / ultrabooks and above */
