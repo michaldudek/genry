@@ -1,11 +1,11 @@
 <?php
 namespace MD\Genry;
 
-use MD\Foundation\MDObject;
+use MD\Foundation\MagicObject;
 
 use SplFileInfo;
 
-class Page extends MDObject
+class Page extends MagicObject
 {
 
     protected $__properties = array(
