@@ -1,5 +1,6 @@
 .cache/
 .genry/
+vendor
 
 # Font Awesome src/ is causing problems with Jekyll build on GitHub pages
 assets/components/font-awesome/src/
