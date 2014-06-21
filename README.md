@@ -49,7 +49,7 @@ Genry is built in with [Splot Framework](https://github.com/splot/Framework) (to
 
 ## <a name="requirements"></a>Requirements
 
-Genry requires **PHP 5.3+ command line** environment to run which means that it runs just fine on Mac OS X and Linux (*I have no idea about Windows, sorry...*).
+Genry requires **PHP 5.4+ command line** environment to run which means that it runs just fine on Mac OS X and Linux (*I have no idea about Windows, sorry...*).
 
 It also requires PHP's package manager - **[Composer](https://getcomposer.org/)**. To install Composer follow [their instructions](https://getcomposer.org/doc/00-intro.md#installation-nix), but in short it's this:
 
@@ -68,7 +68,7 @@ Genry lives directly inside your project, so you don't have to install it on you
 This will create a basic boilerplate template for your project and some files and dirs that are required for Genry to run:
 
 - `.genry` and `.cache` contain code required by Genry
-- `_templates` is where your website templates will leave (so that they are separate from the main website)
+- `_templates` is where your website templates will live (so that they are separate from the main website)
 - `assets` is a suggested place to put your CSS and JS files, images, videos and any other "assets", but you can put them wherever you want really
 - `.gitignore` comes prepopulated with some files to ignore by Git, so they don't trash your repository
 - `.bowerrc` is a suggested configuration for [Bower](http://bower.io) if you want to use it

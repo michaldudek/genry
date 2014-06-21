@@ -1,5 +1,7 @@
 .genry/
 .cache/
+_templates/
+.genry.yml
 composer.lock
 /vendor/
 /tests/coverage/
