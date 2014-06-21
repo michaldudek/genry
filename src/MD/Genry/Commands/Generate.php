@@ -8,6 +8,8 @@ use MD\Foundation\Utils\FilesystemUtils;
 
 use Splot\Framework\Console\AbstractCommand;
 
+use MD\Genry\Events\DidGenerate;
+use MD\Genry\Events\WillGenerate;
 use MD\Genry\Page;
 
 class Generate extends AbstractCommand 
@@ -18,6 +20,8 @@ class Generate extends AbstractCommand
 
     public function execute() {
         $this->writeln('Generating...');
+
+        $this->get('event_manager')->trigger(new WillGenerate());
 
         $genry = $this->get('genry');
         $templatesDir = $this->container->getParameter('templates_dir');
@@ -37,6 +41,8 @@ class Generate extends AbstractCommand
         $genry->processQueue(function(Page $page) use ($output, $genry) {
             $output->writeln('Generated <info>'. $page->getOutputName() .'</info> from <comment>'. $page->getTemplateName() .'</comment>...');
         });
+
+        $this->get('event_manager')->trigger(new DidGenerate());
 
         $this->writeln('Done.');
     }
