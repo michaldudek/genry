@@ -7,6 +7,7 @@ use Splot\AssetsModule\Assets\AssetsContainer\JavaScriptContainer;
 use Splot\AssetsModule\Assets\AssetsContainer\StylesheetContainer;
 
 use MD\Genry\Events\PageRendered;
+use MD\Genry\Routing\Router;
 use MD\Genry\Page;
 
 class AssetsInjector
@@ -26,16 +27,16 @@ class AssetsInjector
      */
     protected $stylesheets;
 
-    protected $webDir;
+    protected $router;
 
     public function __construct(
         JavaScriptContainer $javascripts,
         StylesheetContainer $stylesheets,
-        $webDir
+        Router $router
     ) {
         $this->javascripts = $javascripts;
         $this->stylesheets = $stylesheets;
-        $this->webDir = $webDir;
+        $this->router = $router;
     }
 
     public function onPageRendered(PageRendered $event) {
@@ -43,8 +44,8 @@ class AssetsInjector
         $output = $event->getOutput();
 
         // make URL's to all assets relative so that they can work locally and in a subdir
-        $this->makeRelativeUrls($this->javascripts, $page->getOutputFile()->getPath());
-        $this->makeRelativeUrls($this->stylesheets, $page->getOutputFile()->getPath());
+        $this->makeRelativeUrls($this->javascripts, $page);
+        $this->makeRelativeUrls($this->stylesheets, $page);
 
         // inject assets to it
         $output = str_replace($this->javascripts->getPlaceholder(), $this->javascripts->printAssets(), $output);
@@ -57,13 +58,13 @@ class AssetsInjector
         $event->setOutput($output);
     }
 
-    protected function makeRelativeUrls(AssetsContainer $container, $relativeTo) {
+    protected function makeRelativeUrls(AssetsContainer $container, Page $relativeTo) {
         foreach($container->getAssets() as $asset) {
             $this->makeRelativeUrl($asset, $relativeTo);
         }
     }
 
-    protected function makeRelativeUrl(Asset $asset, $relativeTo) {
+    protected function makeRelativeUrl(Asset $asset, Page $relativeTo) {
         $url = $asset->getUrl();
 
         // omit external url's
@@ -71,20 +72,7 @@ class AssetsInjector
             return true;
         }
 
-        $relativeTo = rtrim($relativeTo, DS) . DS;
-        if (stripos($relativeTo, $this->webDir) !== 0) {
-            throw new \RuntimeException('The rendered page is not inside the web dir!');
-        }
-
-        $relativeTo = mb_substr($relativeTo, mb_strlen($this->webDir));
-        $url = ltrim($url, '/');
-
-        $relative = '';
-        foreach(explode('/', $relativeTo) as $dir) {
-            $relative .= !empty($dir) ? '../' : '';
-        }
-
-        $url = $relative . $url;
+        $url = $this->router->generateLink($url, $relativeTo);
         $asset->setUrl($url);
     }
 

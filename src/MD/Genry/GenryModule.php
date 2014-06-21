@@ -10,6 +10,8 @@ use MD\Genry\Data\LoaderTwigExtension;
 use MD\Genry\Events\PageRendered;
 use MD\Genry\Markdown\Markdown;
 use MD\Genry\Markdown\MarkdownTwigExtension;
+use MD\Genry\Routing\Router;
+use MD\Genry\Routing\RouterExtension;
 use MD\Genry\Templating\TemplateLoader;
 use MD\Genry\Templating\TwigEngine;
 
@@ -33,7 +35,7 @@ class GenryModule extends AbstractModule
             return new AssetsInjector(
                 $c->get('javascripts'),
                 $c->get('stylesheets'),
-                $c->getParameter('web_dir')
+                $c->get('genry.router')
             );
         });
 
@@ -61,6 +63,14 @@ class GenryModule extends AbstractModule
                 $c->getParameter('web_dir')
             );
         });
+
+        $this->container->set('genry.router', function($c) {
+            return new Router($c->getParameter('web_dir'));
+        });
+
+        $this->container->set('genry.router_extension', function($c) {
+            return new RouterExtension($c->get('genry.router'));
+        });
     }
 
     public function run() {
@@ -72,6 +82,7 @@ class GenryModule extends AbstractModule
             $twig = $container->get('twig');
             $twig->addExtension($container->get('data.loader.twig_extension'));
             $twig->addExtension($container->get('markdown.twig_extension'));
+            $twig->addExtension($container->get('genry.router_extension'));
         }
 
         $container->get('event_manager')->subscribe(PageRendered::getName(), function($event) use ($container) {

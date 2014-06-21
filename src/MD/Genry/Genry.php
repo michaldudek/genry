@@ -56,7 +56,9 @@ class Genry
             throw new NotFoundException('Could not find template to render: '. $page->getTemplateFile()->getPathname());
         }
 
-        $output = $this->templating->render($page->getTemplateName(), $page->getParameters());
+        $output = $this->templating->render($page->getTemplateName(), array_merge($page->getParameters(), array(
+            '_genry_page' => $page
+        )));
 
         // trigger event
         $event = new PageRendered($page, $output);
