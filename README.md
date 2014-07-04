@@ -19,7 +19,7 @@ Visit [http://www.michaldudek.pl/genry/](http://www.michaldudek.pl/genry/).
 - Run `$ composer create-project michaldudek/genry-project suchwebsite -s dev` to start a Genry project in `suchwebsite` dir.
 - Use  [Twig templates](http://twig.sensiolabs.org/) to create your website.
 - Put all your templates inside `_templates` directory.
-- Run `$ php genry generate` to generate static HTML files.
+- Run `$ php bin/genry generate` to generate static HTML files.
 - In templates:
     - When including/extending templates refer to them relative to the `_templates` dir, e.g. `{{ include "subdir/content.html.twig" }}` for including `_templates/subdir/content.html.twig`.
     - Use `{{ stylesheet('assets/css/global.css') }}` and `{{ javascript('assets/js/global.js') }}` to add CSS and JS files and `{{ stylesheets() }}` and `{{ javascripts() }}` to output them to make sure their URL is always correct and relative to the generated page
@@ -70,13 +70,26 @@ This will create a basic boilerplate template for your project and some files an
 - `.genry` and `.cache` contain code required by Genry
 - `_templates` is where your website templates will live (so that they are separate from the main website)
 - `assets` is a suggested place to put your CSS and JS files, images, videos and any other "assets", but you can put them wherever you want really
+- `bin` is a directory with executable files and there should be a `bin/genry` file
 - `.gitignore` comes prepopulated with some files to ignore by Git, so they don't trash your repository
 - `.bowerrc` is a suggested configuration for [Bower](http://bower.io) if you want to use it
 - `bower.json` comes with few suggested packages that you might want to get from [Bower](http://bower.io) to get you started
 - `composer.json` and `composer.lock` are files created by Composer that hold information which version of Genry and other PHP libraries you are using
-- `genry` is finally the actual Genry.
 
 This may seem like quite a lot of files to just start a website, but they are there for a reason and should never get in your way.
+
+## <a name="configuration"></a>Configuration
+
+You can create a `.genry.yml` in the root of your project if you want to configure Genry.
+
+This is the default configuration:
+
+    cache_dir: .cache
+    templates_dir: _templates
+    web_dir: .
+
+    modules:
+        # here you can list additional Genry modules you want available, using their full PHP namespace
 
 #### <a name="updating"></a>Updating and re-installing
 
