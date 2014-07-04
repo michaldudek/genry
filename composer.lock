@@ -1,9 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
-    "hash": "54db791c9990131cad9b0eda8102d32b",
+    "hash": "ee5df6cb9c61079a3bbd31b35acedabc",
     "packages": [
         {
             "name": "filp/whoops",
@@ -186,12 +187,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/michaldudek/Foundation.git",
-                "reference": "236c4e48ae3de939c6c01cc15efd9bd9058283b4"
+                "reference": "2f1161605f11b3f51084c462b66e03dcda12b757"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michaldudek/Foundation/zipball/236c4e48ae3de939c6c01cc15efd9bd9058283b4",
-                "reference": "236c4e48ae3de939c6c01cc15efd9bd9058283b4",
+                "url": "https://api.github.com/repos/michaldudek/Foundation/zipball/2f1161605f11b3f51084c462b66e03dcda12b757",
+                "reference": "2f1161605f11b3f51084c462b66e03dcda12b757",
                 "shasum": ""
             },
             "require": {
@@ -219,16 +220,16 @@
                     "email": "michal@michaldudek.pl"
                 }
             ],
-            "description": "A set of useful PHP functions and (mostly static) classes.",
+            "description": "A set of useful PHP classes.",
+            "homepage": "http://www.michaldudek.pl/Foundation/",
             "keywords": [
                 "array",
-                "foundation",
                 "object",
                 "string",
                 "tools",
                 "utils"
             ],
-            "time": "2014-04-16 23:19:34"
+            "time": "2014-06-28 22:20:35"
         },
         {
             "name": "michaldudek/genry",
@@ -236,21 +237,26 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/michaldudek/genry.git",
-                "reference": "70d4df64ba43c8680c50a4a941707260cdd97dc3"
+                "reference": "5bcb4a5a23188df6eef8faa11dabe90976b933a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michaldudek/genry/zipball/70d4df64ba43c8680c50a4a941707260cdd97dc3",
-                "reference": "70d4df64ba43c8680c50a4a941707260cdd97dc3",
+                "url": "https://api.github.com/repos/michaldudek/genry/zipball/5bcb4a5a23188df6eef8faa11dabe90976b933a5",
+                "reference": "5bcb4a5a23188df6eef8faa11dabe90976b933a5",
                 "shasum": ""
             },
             "require": {
+                "michaldudek/foundation": ">=0.9",
                 "michelf/php-markdown": "1.3.*@dev",
-                "php": ">=5.3.3",
-                "splot/assets-module": "dev-master",
-                "splot/framework": "dev-master",
-                "splot/twig-module": "dev-master"
+                "php": ">=5.4",
+                "splot/assets-module": "0.6.*@dev",
+                "splot/framework": "0.6.*@dev",
+                "splot/twig-module": "0.6.*@dev",
+                "symfony/yaml": ">=2.1,<2.6"
             },
+            "bin": [
+                "bin/genry"
+            ],
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -274,7 +280,7 @@
                 "static",
                 "twig"
             ],
-            "time": "2014-06-01 00:06:42"
+            "time": "2014-07-04 11:22:31"
         },
         {
             "name": "michelf/php-markdown",
@@ -562,12 +568,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/splot/Framework.git",
-                "reference": "b98113c7bafcba6bf3b9f7ad5ea69f290316c1ce"
+                "reference": "39c9a2eea7eb2609f9a9bbb84d6db089b0ccdaa1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/splot/Framework/zipball/b98113c7bafcba6bf3b9f7ad5ea69f290316c1ce",
-                "reference": "b98113c7bafcba6bf3b9f7ad5ea69f290316c1ce",
+                "url": "https://api.github.com/repos/splot/Framework/zipball/39c9a2eea7eb2609f9a9bbb84d6db089b0ccdaa1",
+                "reference": "39c9a2eea7eb2609f9a9bbb84d6db089b0ccdaa1",
                 "shasum": ""
             },
             "require": {
@@ -619,7 +625,7 @@
                 "rapid",
                 "web"
             ],
-            "time": "2014-05-05 13:12:28"
+            "time": "2014-06-25 22:35:09"
         },
         {
             "name": "splot/twig-module",
@@ -627,12 +633,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/splot/TwigModule.git",
-                "reference": "59190034b435ad128f69e4529df0786ae8e271a4"
+                "reference": "ae0c9fd82ad5767be0fb17a713013286f2e1fda0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/splot/TwigModule/zipball/59190034b435ad128f69e4529df0786ae8e271a4",
-                "reference": "59190034b435ad128f69e4529df0786ae8e271a4",
+                "url": "https://api.github.com/repos/splot/TwigModule/zipball/ae0c9fd82ad5767be0fb17a713013286f2e1fda0",
+                "reference": "ae0c9fd82ad5767be0fb17a713013286f2e1fda0",
                 "shasum": ""
             },
             "require": {
@@ -669,7 +675,7 @@
                 "templating",
                 "twig"
             ],
-            "time": "2014-05-23 11:39:05"
+            "time": "2014-06-21 19:27:41"
         },
         {
             "name": "symfony/console",
@@ -678,12 +684,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "24f723436e62598c9dddee2a8573d6992504dc5d"
+                "reference": "a5d3e9299980f6e0e1f98a17621109ab31603d91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/24f723436e62598c9dddee2a8573d6992504dc5d",
-                "reference": "24f723436e62598c9dddee2a8573d6992504dc5d",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/a5d3e9299980f6e0e1f98a17621109ab31603d91",
+                "reference": "a5d3e9299980f6e0e1f98a17621109ab31603d91",
                 "shasum": ""
             },
             "require": {
@@ -724,7 +730,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2014-05-14 21:48:29"
+            "time": "2014-06-20 17:36:47"
         },
         {
             "name": "symfony/filesystem",
@@ -733,12 +739,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Filesystem.git",
-                "reference": "a3af8294bcce4a7c1b2892363b0c9d8109affad4"
+                "reference": "11d6101a409ef47996d7f28ea3debb6f4dec16ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/a3af8294bcce4a7c1b2892363b0c9d8109affad4",
-                "reference": "a3af8294bcce4a7c1b2892363b0c9d8109affad4",
+                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/11d6101a409ef47996d7f28ea3debb6f4dec16ab",
+                "reference": "11d6101a409ef47996d7f28ea3debb6f4dec16ab",
                 "shasum": ""
             },
             "require": {
@@ -773,7 +779,7 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "http://symfony.com",
-            "time": "2014-04-16 10:34:31"
+            "time": "2014-06-20 17:37:57"
         },
         {
             "name": "symfony/http-foundation",
@@ -782,12 +788,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "138498f3d64981cfafcb5eec3b2b96fce44a178e"
+                "reference": "dfb61a19daea425da832709199f5353c11088f23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/138498f3d64981cfafcb5eec3b2b96fce44a178e",
-                "reference": "138498f3d64981cfafcb5eec3b2b96fce44a178e",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/dfb61a19daea425da832709199f5353c11088f23",
+                "reference": "dfb61a19daea425da832709199f5353c11088f23",
                 "shasum": ""
             },
             "require": {
@@ -828,7 +834,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2014-05-22 16:21:00"
+            "time": "2014-06-20 17:36:47"
         },
         {
             "name": "symfony/process",
@@ -837,12 +843,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process.git",
-                "reference": "a7118cb290c62068b3c8ecfbf8b2eda8421fb841"
+                "reference": "3badfe304c35a69f3a497479440c54f1afe558b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/a7118cb290c62068b3c8ecfbf8b2eda8421fb841",
-                "reference": "a7118cb290c62068b3c8ecfbf8b2eda8421fb841",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/3badfe304c35a69f3a497479440c54f1afe558b8",
+                "reference": "3badfe304c35a69f3a497479440c54f1afe558b8",
                 "shasum": ""
             },
             "require": {
@@ -877,7 +883,56 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "http://symfony.com",
-            "time": "2014-05-22 13:46:01"
+            "time": "2014-07-01 06:40:32"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "2.5.x-dev",
+            "target-dir": "Symfony/Component/Yaml",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Yaml.git",
+                "reference": "fcfc29182d793e30f00961b2e60983bc64b38331"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/fcfc29182d793e30f00961b2e60983bc64b38331",
+                "reference": "fcfc29182d793e30f00961b2e60983bc64b38331",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Yaml\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "http://symfony.com",
+            "time": "2014-06-19 14:02:29"
         },
         {
             "name": "twig/twig",
@@ -885,12 +940,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "1c0bec2814a078a81fb86dbc38798bf73418f839"
+                "reference": "96336aba609af06e8722ddc17451ce93d70b54e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/1c0bec2814a078a81fb86dbc38798bf73418f839",
-                "reference": "1c0bec2814a078a81fb86dbc38798bf73418f839",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/96336aba609af06e8722ddc17451ce93d70b54e1",
+                "reference": "96336aba609af06e8722ddc17451ce93d70b54e1",
                 "shasum": ""
             },
             "require": {
@@ -934,23 +989,15 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2014-05-26 15:15:28"
+            "time": "2014-06-20 07:26:46"
         }
     ],
-    "packages-dev": [
-
-    ],
-    "aliases": [
-
-    ],
+    "packages-dev": [],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "michaldudek/genry": 20
     },
-    "platform": [
-
-    ],
-    "platform-dev": [
-
-    ]
+    "platform": [],
+    "platform-dev": []
 }
