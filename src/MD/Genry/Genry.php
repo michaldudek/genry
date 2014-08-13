@@ -3,6 +3,10 @@ namespace MD\Genry;
 
 use SplFileInfo;
 
+use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\NullLogger;
+
 use MD\Foundation\Exceptions\NotFoundException;
 use MD\Foundation\Utils\FilesystemUtils;
 
@@ -14,7 +18,7 @@ use MD\Genry\Events\PageRendered;
 use MD\Genry\Events\WillGenerate;
 use MD\Genry\Page;
 
-class Genry
+class Genry implements LoggerAwareInterface
 {
 
     protected $templating;
@@ -37,19 +41,28 @@ class Genry
      */
     protected $queue = array();
 
+    /**
+     * Logger.
+     * 
+     * @var LoggerInterface
+     */
+    protected $logger;
+
     public function __construct(
         TemplatingEngineInterface $templating,
         EventManager $eventManager,
         $templatesDir,
-        $webDir
+        $webDir,
+        LoggerInterface $logger = null
     ) {
         $this->templating = $templating;
         $this->eventManager = $eventManager;
         $this->templatesDir = $templatesDir;
         $this->webDir = $webDir;
+        $this->logger = $logger ? $logger : new NullLogger();
     }
 
-    public function generateAll(callable $callback = null) {
+    public function generateAll() {
         $this->eventManager->trigger(new WillGenerate());
 
         $templates = FilesystemUtils::glob($this->templatesDir .'{,**/}*.html.twig', GLOB_BRACE);
@@ -63,7 +76,7 @@ class Genry
             $this->addToQueue($template);
         }
 
-        $this->processQueue($callback);
+        $this->processQueue();
 
         $this->eventManager->trigger(new DidGenerate());
 
@@ -97,6 +110,11 @@ class Genry
         }
 
         file_put_contents($page->getOutputFile()->getPathname(), $output);
+
+        $this->logger->debug('Generated {output} from {template}', array(
+            'output' => $page->getOutputName(),
+            'template' => $page->getTemplateName()
+        ));
 
         return $output;
     }
@@ -141,14 +159,10 @@ class Genry
         $this->queue[] = $this->createPage($template, $parameters, $outputFile);
     }
 
-    public function processQueue(callable $callback = null) {
+    public function processQueue() {
         while(!empty($this->queue)) {
             $page = array_shift($this->queue);
             $this->generatePage($page);
-            
-            if ($callback !== null) {
-                call_user_func_array($callback, array($page));
-            }
         }
     }
 
@@ -174,6 +188,10 @@ class Genry
         return stripos($path, $this->webDir) === 0
             ? mb_substr($path, mb_strlen($this->webDir))
             : $path;
+    }
+
+    public function setLogger(LoggerInterface $logger) {
+        $this->logger = $logger;
     }
 
 }

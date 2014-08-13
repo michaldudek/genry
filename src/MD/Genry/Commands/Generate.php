@@ -14,10 +14,10 @@ class Generate extends AbstractCommand
     public function execute() {
         $this->writeln('Generating...');
 
-        $output = $this;
-        $this->get('genry')->generateAll(function(Page $page) use ($output) {
-            $output->writeln('Generated <info>'. $page->getOutputName() .'</info> from <comment>'. $page->getTemplateName() .'</comment>...');
-        });
+        $genry = $this->get('genry');
+        $genry->setLogger($this->getLogger()); // set genry logger to the console logger to get nice output
+
+        $genry->generateAll();
 
         $this->writeln('Done.');
     }
