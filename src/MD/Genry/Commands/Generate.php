@@ -1,15 +1,8 @@
 <?php
 namespace MD\Genry\Commands;
 
-use SplFileInfo;
-
-use MD\Foundation\Exceptions\NotFoundException;
-use MD\Foundation\Utils\FilesystemUtils;
-
 use Splot\Framework\Console\AbstractCommand;
 
-use MD\Genry\Events\DidGenerate;
-use MD\Genry\Events\WillGenerate;
 use MD\Genry\Page;
 
 class Generate extends AbstractCommand 
@@ -21,28 +14,10 @@ class Generate extends AbstractCommand
     public function execute() {
         $this->writeln('Generating...');
 
-        $this->get('event_manager')->trigger(new WillGenerate());
-
-        $genry = $this->get('genry');
-        $templatesDir = $this->container->getParameter('templates_dir');
-
-        $templates = FilesystemUtils::glob($templatesDir .'{,**/}*.html.twig', GLOB_BRACE);
-
-        foreach($templates as $template) {
-            // exclude if a partial template, ie. ends with ".inc.html.twig"
-            if (preg_match('/\.inc\.html\.twig$/i', $template)) {
-                continue;
-            }
-
-            $genry->addToQueue($template);
-        }
-
         $output = $this;
-        $genry->processQueue(function(Page $page) use ($output, $genry) {
+        $this->get('genry')->generateAll(function(Page $page) use ($output) {
             $output->writeln('Generated <info>'. $page->getOutputName() .'</info> from <comment>'. $page->getTemplateName() .'</comment>...');
         });
-
-        $this->get('event_manager')->trigger(new DidGenerate());
 
         $this->writeln('Done.');
     }

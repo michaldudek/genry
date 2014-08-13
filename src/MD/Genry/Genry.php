@@ -4,11 +4,14 @@ namespace MD\Genry;
 use SplFileInfo;
 
 use MD\Foundation\Exceptions\NotFoundException;
+use MD\Foundation\Utils\FilesystemUtils;
 
 use Splot\EventManager\EventManager;
 use Splot\Framework\Templating\TemplatingEngineInterface;
 
+use MD\Genry\Events\DidGenerate;
 use MD\Genry\Events\PageRendered;
+use MD\Genry\Events\WillGenerate;
 use MD\Genry\Page;
 
 class Genry
@@ -44,6 +47,27 @@ class Genry
         $this->eventManager = $eventManager;
         $this->templatesDir = $templatesDir;
         $this->webDir = $webDir;
+    }
+
+    public function generateAll(callable $callback = null) {
+        $this->eventManager->trigger(new WillGenerate());
+
+        $templates = FilesystemUtils::glob($this->templatesDir .'{,**/}*.html.twig', GLOB_BRACE);
+
+        foreach($templates as $template) {
+            // exclude if a partial template, ie. ends with ".inc.html.twig"
+            if (preg_match('/\.inc\.html\.twig$/i', $template)) {
+                continue;
+            }
+
+            $this->addToQueue($template);
+        }
+
+        $this->processQueue($callback);
+
+        $this->eventManager->trigger(new DidGenerate());
+
+        return true;
     }
 
     public function generate($template, array $parameters = array(), $outputFile = null) {
