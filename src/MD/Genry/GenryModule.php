@@ -8,6 +8,7 @@ use MD\Genry\Assets\AssetsInjector;
 use MD\Genry\Data\Loader;
 use MD\Genry\Data\LoaderTwigExtension;
 use MD\Genry\Events\PageRendered;
+use MD\Genry\TemplatesWatcher;
 use MD\Genry\Markdown\Markdown;
 use MD\Genry\Markdown\MarkdownTwigExtension;
 use MD\Genry\Routing\Router;
@@ -39,6 +40,10 @@ class GenryModule extends AbstractModule
             );
         });
 
+        $this->container->set('genry.watcher.templates', function($c) {
+            return new TemplatesWatcher($c->getParameter('templates_dir'));
+        });
+
         $this->container->set('data.loader', function($c) {
             return new Loader($c->getParameter('data_dir'));
         });
@@ -56,12 +61,14 @@ class GenryModule extends AbstractModule
         });
 
         $this->container->set('genry', function($c) {
-            return new Genry(
+            $genry = new Genry(
                 $c->get('templating'),
                 $c->get('event_manager'),
                 $c->getParameter('templates_dir'),
                 $c->getParameter('web_dir')
             );
+            $genry->addFileWatcher($c->get('genry.watcher.templates'));
+            return $genry;
         });
 
         $this->container->set('genry.router', function($c) {

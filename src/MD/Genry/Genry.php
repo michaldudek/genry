@@ -16,6 +16,7 @@ use Splot\Framework\Templating\TemplatingEngineInterface;
 use MD\Genry\Events\DidGenerate;
 use MD\Genry\Events\PageRendered;
 use MD\Genry\Events\WillGenerate;
+use MD\Genry\FileWatcher\FileWatcherInterface;
 use MD\Genry\Page;
 
 class Genry implements LoggerAwareInterface
@@ -33,6 +34,8 @@ class Genry implements LoggerAwareInterface
     protected $templatesDir;
 
     protected $webDir;
+
+    protected $fileWatchers = array();
 
     /**
      * Page generation queue.
@@ -155,6 +158,45 @@ class Genry implements LoggerAwareInterface
         return $page;
     }
 
+    public function watch() {
+        $lastModifications = array();
+        $firstRun = true;
+
+        while(true) {
+            // gather files from watchers on every check in case new files have appeared
+            $files = array();
+            foreach($this->fileWatchers as $watcher) {
+                $files = array_merge($files, $watcher->filesToWatch());
+            }
+
+            $modified = false;
+            foreach($files as $file) {
+                $modificationTime = filemtime($file);
+
+                // if a new file or a file that has been modified since last check
+                // then mark that project was modified
+                if (!$firstRun && (!isset($lastModifications[$file]) || $modificationTime > $lastModifications[$file])) {
+                    $modified = true;
+                    $this->logger->info(NL . 'Registered modification of {file}...', array(
+                        'file' => $file
+                    ));
+                }
+
+                $lastModifications[$file] = filemtime($file);
+            }
+
+            // if project has been modified then regenerate it
+            if ($modified) {
+                $this->generateAll();
+            }
+
+            $firstRun = false;
+            usleep(1000000); // sleep for 1s before checking again
+        }
+
+        return false;
+    }
+
     public function addToQueue($template, array $parameters = array(), $outputFile = null) {
         $this->queue[] = $this->createPage($template, $parameters, $outputFile);
     }
@@ -172,6 +214,10 @@ class Genry implements LoggerAwareInterface
 
     public function clearQueue() {
         $this->queue = array();
+    }
+
+    public function addFileWatcher(FileWatcherInterface $watcher) {
+        $this->fileWatchers[] = $watcher;
     }
 
     public function templateNameFromPath($path) {
