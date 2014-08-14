@@ -11,12 +11,12 @@ use MD\Foundation\Exceptions\NotFoundException;
 use MD\Foundation\Utils\FilesystemUtils;
 
 use Splot\EventManager\EventManager;
-use Splot\Framework\Templating\TemplatingEngineInterface;
 
 use MD\Genry\Events\DidGenerate;
 use MD\Genry\Events\PageRendered;
 use MD\Genry\Events\WillGenerate;
 use MD\Genry\FileWatcher\FileWatcherInterface;
+use MD\Genry\Templating\TemplatingEngineInterface;
 use MD\Genry\Page;
 
 class Genry implements LoggerAwareInterface
@@ -66,6 +66,9 @@ class Genry implements LoggerAwareInterface
     }
 
     public function generateAll() {
+        // force clearing cache before every generation
+        $this->templating->clearCache();
+
         $this->eventManager->trigger(new WillGenerate());
 
         $templates = FilesystemUtils::glob($this->templatesDir .'{,**/}*.html.twig', GLOB_BRACE);

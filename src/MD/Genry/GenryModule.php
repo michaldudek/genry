@@ -13,8 +13,8 @@ use MD\Genry\Markdown\Markdown;
 use MD\Genry\Markdown\MarkdownTwigExtension;
 use MD\Genry\Routing\Router;
 use MD\Genry\Routing\RouterExtension;
-use MD\Genry\Templating\TemplateLoader;
-use MD\Genry\Templating\TwigEngine;
+use MD\Genry\Templating\Twig\TemplateLoader;
+use MD\Genry\Templating\Twig\TwigEngine;
 
 class GenryModule extends AbstractModule
 {
