@@ -8,6 +8,7 @@ use MD\Genry\Assets\AssetsExtension;
 use MD\Genry\Assets\AssetsInjector;
 use MD\Genry\Data\Loader;
 use MD\Genry\Data\LoaderTwigExtension;
+use MD\Genry\Data\Writer;
 use MD\Genry\Events\PageRendered;
 use MD\Genry\TemplatesWatcher;
 use MD\Genry\Markdown\Markdown;
@@ -57,6 +58,13 @@ class GenryModule extends AbstractModule
 
         $this->container->set('data.loader', function($c) {
             return new Loader($c->getParameter('data_dir'));
+        });
+
+        $this->container->set('data.writer', function($c) {
+            return new Writer(
+                $c->get('filesystem'),
+                $c->getParameter('data_dir')
+            );
         });
 
         $this->container->set('data.loader.twig_extension', function($c) {
