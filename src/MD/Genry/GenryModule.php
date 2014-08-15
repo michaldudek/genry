@@ -4,6 +4,7 @@ namespace MD\Genry;
 use Splot\Framework\Modules\AbstractModule;
 
 use MD\Genry\Genry;
+use MD\Genry\Assets\AssetsExtension;
 use MD\Genry\Assets\AssetsInjector;
 use MD\Genry\Data\Loader;
 use MD\Genry\Data\LoaderTwigExtension;
@@ -30,6 +31,16 @@ class GenryModule extends AbstractModule
         // overwrite templating service
         $this->container->set('templating', function($c) {
             return new TwigEngine($c->get('twig'));
+        });
+
+        // overwrite assets twig extension
+        $this->container->set('assets.twig_extension', function($c) {
+            return new AssetsExtension(
+                $c->get('assets.finder'),
+                $c->get('assets.javascripts'),
+                $c->get('assets.stylesheets'),
+                $c->get('genry.router')
+            );
         });
 
         $this->container->set('genry.assets_injector', function($c) {
