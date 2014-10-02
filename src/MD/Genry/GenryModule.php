@@ -4,16 +4,19 @@ namespace MD\Genry;
 use Splot\Framework\Modules\AbstractModule;
 
 use MD\Genry\Genry;
+use MD\Genry\Assets\AssetsExtension;
 use MD\Genry\Assets\AssetsInjector;
 use MD\Genry\Data\Loader;
 use MD\Genry\Data\LoaderTwigExtension;
+use MD\Genry\Data\Writer;
 use MD\Genry\Events\PageRendered;
+use MD\Genry\TemplatesWatcher;
 use MD\Genry\Markdown\Markdown;
 use MD\Genry\Markdown\MarkdownTwigExtension;
 use MD\Genry\Routing\Router;
 use MD\Genry\Routing\RouterExtension;
-use MD\Genry\Templating\TemplateLoader;
-use MD\Genry\Templating\TwigEngine;
+use MD\Genry\Templating\Twig\TemplateLoader;
+use MD\Genry\Templating\Twig\TwigEngine;
 
 class GenryModule extends AbstractModule
 {
@@ -31,6 +34,16 @@ class GenryModule extends AbstractModule
             return new TwigEngine($c->get('twig'));
         });
 
+        // overwrite assets twig extension
+        $this->container->set('assets.twig_extension', function($c) {
+            return new AssetsExtension(
+                $c->get('assets.finder'),
+                $c->get('assets.javascripts'),
+                $c->get('assets.stylesheets'),
+                $c->get('genry.router')
+            );
+        });
+
         $this->container->set('genry.assets_injector', function($c) {
             return new AssetsInjector(
                 $c->get('javascripts'),
@@ -39,8 +52,19 @@ class GenryModule extends AbstractModule
             );
         });
 
+        $this->container->set('genry.watcher.templates', function($c) {
+            return new TemplatesWatcher($c->getParameter('templates_dir'));
+        });
+
         $this->container->set('data.loader', function($c) {
             return new Loader($c->getParameter('data_dir'));
+        });
+
+        $this->container->set('data.writer', function($c) {
+            return new Writer(
+                $c->get('filesystem'),
+                $c->getParameter('data_dir')
+            );
         });
 
         $this->container->set('data.loader.twig_extension', function($c) {
@@ -56,12 +80,14 @@ class GenryModule extends AbstractModule
         });
 
         $this->container->set('genry', function($c) {
-            return new Genry(
+            $genry = new Genry(
                 $c->get('templating'),
                 $c->get('event_manager'),
                 $c->getParameter('templates_dir'),
                 $c->getParameter('web_dir')
             );
+            $genry->addFileWatcher($c->get('genry.watcher.templates'));
+            return $genry;
         });
 
         $this->container->set('genry.router', function($c) {

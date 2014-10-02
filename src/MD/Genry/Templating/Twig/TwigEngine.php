@@ -1,9 +1,9 @@
 <?php
-namespace MD\Genry\Templating;
+namespace MD\Genry\Templating\Twig;
 
 use Twig_Environment;
 
-use Splot\Framework\Templating\TemplatingEngineInterface;
+use MD\Genry\Templating\TemplatingEngineInterface;
 
 class TwigEngine implements TemplatingEngineInterface
 {
@@ -18,7 +18,7 @@ class TwigEngine implements TemplatingEngineInterface
     /**
      * Constructor.
      * 
-     * @param Twig_Environment $twig Twig engine.
+     * @param Environment $twig Twig engine that has been overwritten in Genry.
      */
     public function __construct(Twig_Environment $twig) {
         $this->twig = $twig;
@@ -33,6 +33,17 @@ class TwigEngine implements TemplatingEngineInterface
      */
     public function render($view, array $data = array()) {
         return $this->twig->render($view, $data);
+    }
+
+    /**
+     * Clear any cached templates.
+     *
+     * This is called before regenerating the whole project to make sure
+     * that no templates are cached.
+     */
+    public function clearCache() {
+        $this->twig->clearTemplateCache();
+        $this->twig->clearCacheFiles();
     }
 
 }
