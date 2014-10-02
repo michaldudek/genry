@@ -12,16 +12,16 @@
     "require": {
         "php": ">=5.4",
         "michaldudek/foundation": ">=0.9",
-        "splot/framework": "0.6.*@dev",
+        "splot/framework": "0.8.*@dev",
         "splot/assets-module": "0.6.*@dev",
         "splot/twig-module": "0.6.*@dev",
         "michelf/php-markdown": "1.3.*@dev",
-        "symfony/yaml": ">=2.1,<2.6"
+        "symfony/yaml": ">=2.1,<3.0"
     },
     "minimum-stability": "dev",
     "autoload": {
-        "psr-0": {
-            "MD\\Genry": "src/"
+        "psr-4": {
+            "MD\\Genry\\": "src/"
         }
     },
     "bin": [
