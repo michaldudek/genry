@@ -11,7 +11,7 @@ class Application extends AbstractApplication
 {
 
     protected $name = 'Genry';
-    protected $version = '0.3.0';
+    protected $version = '0.3.1';
 
     private $userModules = array();
     private $userConfig = array();
