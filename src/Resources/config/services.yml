@@ -1,4 +1,6 @@
 parameters:
+    event.will_generate: Genry\Events\WillGenerate
+    event.did_generate: Genry\Events\DidGenerate
     event.page_rendered: Genry\Events\PageRendered
 
 services:

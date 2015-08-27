@@ -9,6 +9,11 @@ use Splot\AssetsModule\Assets\AssetsFinder;
 use Genry\Routing\Router;
 use Genry\Page;
 
+/**
+ * Twig extension for assets.
+ *
+ * @author Michał Pałys-Dudek <michal@michaldudek.pl>
+ */
 class AssetsExtension extends BaseAssetsExtension
 {
 
@@ -22,7 +27,7 @@ class AssetsExtension extends BaseAssetsExtension
     /**
      * Constructor.
      *
-     * @param Finder $resourceFinder Resource finder.
+     * @param Finder $finder Resource finder.
      * @param JavaScriptContainer $javascripts JavaScript container service.
      * @param StylesheetContainer $stylesheets Stylesheets container service.
      * @param Router $router Genry router.
@@ -37,20 +42,39 @@ class AssetsExtension extends BaseAssetsExtension
         $this->router = $router;
     }
 
+    /**
+     * Returns the new registered Twig functions.
+     *
+     * @return array
+     */
     public function getFunctions()
     {
         $functions = parent::getFunctions();
-        $functions[] = new \Twig_SimpleFunction('asset', array($this, 'getAssetRelativeUrl'), array('needs_context' => true));
+        $functions[] = new \Twig_SimpleFunction(
+            'asset',
+            array($this, 'getAssetRelativeUrl'),
+            array('needs_context' => true)
+        );
         return $functions;
     }
 
+    /**
+     * Generates a relative URL to an asset.
+     *
+     * @param  array  $context  Page template context.
+     * @param  string $resource Original path to the resource.
+     *
+     * @return string
+     */
     public function getAssetRelativeUrl($context, $resource)
     {
         if (!isset($context['_genry_page']) || !$context['_genry_page'] instanceof Page) {
-            throw new \RuntimeException('Twig asset() function requires "_genry_page" variable in the template to be set to the current rendered page. It must have been overwritten in the context.');
+            throw new \RuntimeException(
+                'Twig asset() function requires "_genry_page" variable in the template to be set to the current'
+                .' rendered page. It must have been overwritten in the context.'
+            );
         }
 
-        $url = $this->getAssetUrl($resource);
         return $this->router->generateLink($resource, $context['_genry_page']);
     }
 }

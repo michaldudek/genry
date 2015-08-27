@@ -5,6 +5,11 @@ use Twig_Environment;
 
 use Genry\Templating\TemplatingEngineInterface;
 
+/**
+ * Twig templating engine bridge.
+ *
+ * @author Michał Pałys-Dudek <michal@michaldudek.pl>
+ */
 class TwigEngine implements TemplatingEngineInterface
 {
 
@@ -30,6 +35,7 @@ class TwigEngine implements TemplatingEngineInterface
      *
      * @param string $view View name.
      * @param array $data [optional] Any additional variables to be interpolated in the view template.
+     *
      * @return string
      */
     public function render($view, array $data = array())

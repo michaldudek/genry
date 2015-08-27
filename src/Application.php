@@ -9,15 +9,50 @@ use Splot\Framework\Application\AbstractApplication;
 use Splot\Framework\DependencyInjection\ContainerCache;
 use Splot\Framework\Framework;
 
+/**
+ * Genry Splot Application.
+ *
+ * @author Michał Pałys-Dudek <michal@michaldudek.pl>
+ */
 class Application extends AbstractApplication
 {
 
+    /**
+     * Application name.
+     *
+     * @var string
+     */
     protected $name = 'Genry';
+
+    /**
+     * Application version.
+     *
+     * @var string
+     */
     protected $version = '0.4.0-dev';
 
+    /**
+     * List of user defined modules to be loaded.
+     *
+     * @var array
+     */
     private $userModules = array();
+
+    /**
+     * Custom user config.
+     *
+     * @var array
+     */
     private $userConfig = array();
 
+    /**
+     * Returns application specific parameters.
+     *
+     * @param  string  $env   Environment.
+     * @param  boolean $debug Is debug mode on?
+     *
+     * @return array
+     */
     public function loadParameters($env, $debug)
     {
         $cwd = getcwd();
@@ -36,7 +71,9 @@ class Application extends AbstractApplication
 
             // parse dirs
             foreach (array('cache_dir', 'data_dir', 'templates_dir', 'web_dir') as $paramName) {
-                $parameters[$paramName] = isset($cfg[$paramName]) ? $cwd .'/'. trim($cfg[$paramName], DS) : $parameters[$paramName];
+                $parameters[$paramName] = isset($cfg[$paramName])
+                    ? $cwd .'/'. trim($cfg[$paramName], DS)
+                    : $parameters[$paramName];
             }
 
             // remember what modules to load
@@ -49,6 +86,14 @@ class Application extends AbstractApplication
         return $parameters;
     }
 
+    /**
+     * Returns a list of modules that should be loaded.
+     *
+     * @param  string  $env   Environment.
+     * @param  boolean $debug Is debug mode on?
+     *
+     * @return array
+     */
     public function loadModules($env, $debug)
     {
         $modules = array(
@@ -79,12 +124,18 @@ class Application extends AbstractApplication
         return new ContainerCache(new MemoryStore());
     }
 
+    /**
+     * Configures the application.
+     */
     public function configure()
     {
         parent::configure();
         $this->container->get('config')->apply($this->userConfig);
     }
 
+    /**
+     * Runs the application.
+     */
     public function run()
     {
         if ($this->container->getParameter('mode') !== Framework::MODE_CONSOLE) {

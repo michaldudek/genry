@@ -10,6 +10,11 @@ use Genry\Events\PageRendered;
 use Genry\Routing\Router;
 use Genry\Page;
 
+/**
+ * Injects assets links to templates dynamically.
+ *
+ * @author Michał Pałys-Dudek <michal@michaldudek.pl>
+ */
 class AssetsInjector
 {
 
@@ -27,8 +32,20 @@ class AssetsInjector
      */
     protected $stylesheets;
 
+    /**
+     * Genry router.
+     *
+     * @var Router
+     */
     protected $router;
 
+    /**
+     * Constructor.
+     *
+     * @param JavaScriptContainer $javascripts JavaScript container.
+     * @param StylesheetContainer $stylesheets CSS container.
+     * @param Router              $router      Genry router.
+     */
     public function __construct(
         JavaScriptContainer $javascripts,
         StylesheetContainer $stylesheets,
@@ -39,6 +56,11 @@ class AssetsInjector
         $this->router = $router;
     }
 
+    /**
+     * Event listener for `event.page_rendered` event.
+     *
+     * @param  PageRendered $event The event.
+     */
     public function onPageRendered(PageRendered $event)
     {
         $page = $event->getPage();
@@ -59,6 +81,12 @@ class AssetsInjector
         $event->setOutput($output);
     }
 
+    /**
+     * Converts URL's to assets in the passed assed container relative to the given page.
+     *
+     * @param  AssetsContainer $container  An assets container.
+     * @param  Page            $relativeTo Page object to which the URL should be relative.
+     */
     protected function makeRelativeUrls(AssetsContainer $container, Page $relativeTo)
     {
         foreach ($container->getAssets() as $asset) {
@@ -66,6 +94,12 @@ class AssetsInjector
         }
     }
 
+    /**
+     * Makes an asset's URL relative to the given page.
+     *
+     * @param  Asset  $asset      Asset to be made relative.
+     * @param  Page   $relativeTo The "owning" page.
+     */
     protected function makeRelativeUrl(Asset $asset, Page $relativeTo)
     {
         $url = $asset->getUrl();

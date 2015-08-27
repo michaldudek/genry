@@ -19,9 +19,21 @@ use Genry\FileWatcher\FileWatcherInterface;
 use Genry\Templating\TemplatingEngineInterface;
 use Genry\Page;
 
+/**
+ * Main Genry service.
+ *
+ * @author Michał Pałys-Dudek <michal@michaldudek.pl>
+ *
+ * @SuppressWarnings(PHPMD)
+ */
 class Genry implements LoggerAwareInterface
 {
 
+    /**
+     * Templating system.
+     *
+     * @var TemplatingEngineInterface
+     */
     protected $templating;
 
     /**
@@ -31,10 +43,25 @@ class Genry implements LoggerAwareInterface
      */
     protected $eventManager;
 
+    /**
+     * Templates directory path.
+     *
+     * @var string
+     */
     protected $templatesDir;
 
+    /**
+     * Web directory path.
+     *
+     * @var string
+     */
     protected $webDir;
 
+    /**
+     * File watchers that have been registered.
+     *
+     * @var array
+     */
     protected $fileWatchers = array();
 
     /**
@@ -51,6 +78,15 @@ class Genry implements LoggerAwareInterface
      */
     protected $logger;
 
+    /**
+     * Constructor.
+     *
+     * @param TemplatingEngineInterface $templating   Templating engine.
+     * @param EventManager              $eventManager Splot Event Manager.
+     * @param string                    $templatesDir Templates directory path.
+     * @param string                    $webDir       Web directory path.
+     * @param LoggerInterface|null      $logger       Logger.
+     */
     public function __construct(
         TemplatingEngineInterface $templating,
         EventManager $eventManager,
@@ -61,10 +97,15 @@ class Genry implements LoggerAwareInterface
         $this->templating = $templating;
         $this->eventManager = $eventManager;
         $this->templatesDir = $templatesDir;
-        $this->webDir = $webDir;
+        $this->webDir = rtrim($webDir, '/') .'/';
         $this->logger = $logger ? $logger : new NullLogger();
     }
 
+    /**
+     * Generates all pages.
+     *
+     * @return boolean
+     */
     public function generateAll()
     {
         // force clearing cache before every generation
@@ -90,12 +131,28 @@ class Genry implements LoggerAwareInterface
         return true;
     }
 
+    /**
+     * Generates a page from the given template.
+     *
+     * @param  string $template   Template name.
+     * @param  array  $parameters Parameters for this page.
+     * @param  string $outputFile Output file for the generated page.
+     *
+     * @return string
+     */
     public function generate($template, array $parameters = array(), $outputFile = null)
     {
         $page = $this->createPage($template, $parameters, $outputFile);
         return $this->generatePage($page);
     }
 
+    /**
+     * Generates a static page from the given Page object.
+     *
+     * @param  Page   $page Page object.
+     *
+     * @return string
+     */
     public function generatePage(Page $page)
     {
         if (!$page->getTemplateFile()->isFile()) {
@@ -128,6 +185,15 @@ class Genry implements LoggerAwareInterface
         return $output;
     }
 
+    /**
+     * Creates a Page object.
+     *
+     * @param  string $template   Page's template name.
+     * @param  array  $parameters Parameters visible in this page.
+     * @param  string $outputFile Target file.
+     *
+     * @return Page
+     */
     public function createPage($template, array $parameters = array(), $outputFile = null)
     {
         $page = new Page();
@@ -165,6 +231,11 @@ class Genry implements LoggerAwareInterface
         return $page;
     }
 
+    /**
+     * Watches templates for changes.
+     *
+     * @return boolean
+     */
     public function watch()
     {
         $lastModifications = array();
@@ -183,7 +254,10 @@ class Genry implements LoggerAwareInterface
 
                 // if a new file or a file that has been modified since last check
                 // then mark that project was modified
-                if (!$firstRun && (!isset($lastModifications[$file]) || $modificationTime > $lastModifications[$file])) {
+                if (!$firstRun
+                    && (                    !isset($lastModifications[$file])
+                    || $modificationTime > $lastModifications[$file])
+                ) {
                     $modified = true;
                     $this->logger->info(NL . 'Registered modification of {file}...', array(
                         'file' => $file
@@ -205,11 +279,21 @@ class Genry implements LoggerAwareInterface
         return false;
     }
 
+    /**
+     * Adds a file to queue to be generated later.
+     *
+     * @param string $template   Template name.
+     * @param array  $parameters Parameters available in that template.
+     * @param string $outputFile Output file path.
+     */
     public function addToQueue($template, array $parameters = array(), $outputFile = null)
     {
         $this->queue[] = $this->createPage($template, $parameters, $outputFile);
     }
 
+    /**
+     * Processes the generation queue.
+     */
     public function processQueue()
     {
         while (!empty($this->queue)) {
@@ -218,21 +302,41 @@ class Genry implements LoggerAwareInterface
         }
     }
 
+    /**
+     * Returns the generation queue.
+     *
+     * @return array
+     */
     public function getQueue()
     {
         return $this->queue;
     }
 
+    /**
+     * Clears the generation queue.
+     */
     public function clearQueue()
     {
         $this->queue = array();
     }
 
+    /**
+     * Adds a file watcher.
+     *
+     * @param FileWatcherInterface $watcher File watcher.
+     */
     public function addFileWatcher(FileWatcherInterface $watcher)
     {
         $this->fileWatchers[] = $watcher;
     }
 
+    /**
+     * Generates a template name from its path.
+     *
+     * @param  string $path Path to the template.
+     *
+     * @return string
+     */
     public function templateNameFromPath($path)
     {
         return stripos($path, $this->templatesDir) === 0
@@ -240,11 +344,25 @@ class Genry implements LoggerAwareInterface
             : $path;
     }
 
+    /**
+     * Generates an output path for the given template name.
+     *
+     * @param  string $templateName Name of the template.
+     *
+     * @return string
+     */
     public function outputPathFromTemplate($templateName)
     {
         return $this->webDir . mb_substr($templateName, 0, -5); // remove ".twig" from the end of the file
     }
 
+    /**
+     * Generates an output name from template path.
+     *
+     * @param  string $path Template path.
+     *
+     * @return string
+     */
     public function outputNameFromPath($path)
     {
         return stripos($path, $this->webDir) === 0
@@ -252,6 +370,11 @@ class Genry implements LoggerAwareInterface
             : $path;
     }
 
+    /**
+     * Sets a logger.
+     *
+     * @param LoggerInterface $logger Logger.
+     */
     public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;

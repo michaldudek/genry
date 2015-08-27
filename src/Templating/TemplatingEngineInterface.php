@@ -3,6 +3,11 @@ namespace Genry\Templating;
 
 use Splot\Framework\Templating\TemplatingEngineInterface as BaseTemplatingEngineInterface;
 
+/**
+ * General templating engine interface for Genry.
+ *
+ * @author Michał Pałys-Dudek <michal@michaldudek.pl>
+ */
 interface TemplatingEngineInterface extends BaseTemplatingEngineInterface
 {
 
@@ -12,5 +17,5 @@ interface TemplatingEngineInterface extends BaseTemplatingEngineInterface
      * This is called before regenerating the whole project to make sure
      * that no templates are cached.
      */
-    function clearCache();
+    public function clearCache();
 }

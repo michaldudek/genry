@@ -1,6 +1,11 @@
 <?php
 namespace Genry\Data;
 
+/**
+ * Interface for writing data.
+ *
+ * @author Michał Pałys-Dudek <michal@michaldudek.pl>
+ */
 interface WriterInterface
 {
 
@@ -10,5 +15,5 @@ interface WriterInterface
      * @param  string $name Name of the data to write.
      * @param  array  $data Data to be written.
      */
-    function write($name, array $data);
+    public function write($name, array $data);
 }

@@ -8,16 +8,38 @@ use MD\Foundation\Exceptions\NotFoundException;
 
 use Genry\Data\LoaderInterface;
 
+/**
+ * Data loader.
+ *
+ * @author Michał Pałys-Dudek <michal@michaldudek.pl>
+ */
 class Loader implements LoaderInterface
 {
 
+    /**
+     * Data directory path.
+     *
+     * @var string
+     */
     protected $dataDir;
 
+    /**
+     * Constructor.
+     *
+     * @param string $dataDir Data directory path.
+     */
     public function __construct($dataDir)
     {
         $this->dataDir = rtrim($dataDir, DS) . DS;
     }
 
+    /**
+     * Loads data with the given name.
+     *
+     * @param  string $name Name of the data to load.
+     *
+     * @return array
+     */
     public function load($name)
     {
         $file = new SplFileInfo($this->dataDir . $name);
@@ -35,6 +57,11 @@ class Loader implements LoaderInterface
         return $data;
     }
 
+    /**
+     * Returns the directory data path.
+     *
+     * @return string
+     */
     public function getDataDir()
     {
         return $this->dataDir;

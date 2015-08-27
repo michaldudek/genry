@@ -9,19 +9,45 @@ use MD\Foundation\Exceptions\NotFoundException;
 
 use Genry\Markdown\Markdown;
 
+/**
+ * Markdown extension for Twig.
+ *
+ * @author Michał Pałys-Dudek <michal@michaldudek.pl>
+ */
 class MarkdownTwigExtension extends Twig_Extension
 {
 
+    /**
+     * Markdown class.
+     *
+     * @var Markdown
+     */
     protected $markdown;
 
+    /**
+     * Templates directory path.
+     *
+     * @var string
+     */
     protected $templatesDir;
 
+    /**
+     * Constructor.
+     *
+     * @param Markdown $markdown     Markdown service.
+     * @param string   $templatesDir Templates directory path.
+     */
     public function __construct(Markdown $markdown, $templatesDir)
     {
         $this->markdown = $markdown;
         $this->templatesDir = rtrim($templatesDir, DS) . DS;
     }
 
+    /**
+     * Returns functions to be added to Twig.
+     *
+     * @return array
+     */
     public function getFunctions()
     {
         return array(
@@ -29,6 +55,11 @@ class MarkdownTwigExtension extends Twig_Extension
         );
     }
 
+    /**
+     * Returns filters to be added to Twig.
+     *
+     * @return array
+     */
     public function getFilters()
     {
         return array(
@@ -36,6 +67,13 @@ class MarkdownTwigExtension extends Twig_Extension
         );
     }
 
+    /**
+     * Parses a markdown file.
+     *
+     * @param  string $file Path to the file.
+     *
+     * @return string
+     */
     public function parseMarkdownFile($file)
     {
         $filePath = $this->templatesDir . trim($file, DS);
@@ -47,11 +85,23 @@ class MarkdownTwigExtension extends Twig_Extension
         return $this->parseMarkdown($markdown);
     }
 
+    /**
+     * Parses a markdown string.
+     *
+     * @param  string $markdown Markdown formatted string.
+     *
+     * @return string
+     */
     public function parseMarkdown($markdown)
     {
         return $this->markdown->parse($markdown);
     }
 
+    /**
+     * Returns the name of this extension.
+     *
+     * @return string
+     */
     public function getName()
     {
         return 'genry.markdown';
