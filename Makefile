@@ -62,7 +62,7 @@ all: help
 install: composer
 
 # Installs all dependencies (including dev dependencies)
-install_dev: composer_dev npm_dev
+install_dev: composer_dev
 
 # Clears any build artifacts, caches, installed packages, etc.
 clear: cache
