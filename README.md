@@ -1,6 +1,8 @@
 <a name="top"></a>Genry
 =====
 
+[![Build Status](https://travis-ci.org/michaldudek/genry.svg)](https://travis-ci.org/michaldudek/genry)
+
 Genry is a static page generator that uses [Twig](http://twig.sensiolabs.org/) templating system.
 
 Use cases include:
