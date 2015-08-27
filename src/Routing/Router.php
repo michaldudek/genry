@@ -8,11 +8,13 @@ class Router
 
     protected $webDir;
 
-    public function __construct($webDir) {
+    public function __construct($webDir)
+    {
         $this->webDir = $webDir;
     }
 
-    public function generateLink($path, Page $fromPage) {
+    public function generateLink($path, Page $fromPage)
+    {
         $relativeTo = $fromPage->getOutputFile()->getPath();
         $relativeTo = rtrim($relativeTo, DS) . DS;
 
@@ -24,11 +26,10 @@ class Router
         $path = ltrim($path, '/');
 
         $relative = '';
-        foreach(explode('/', $relativeTo) as $dir) {
+        foreach (explode('/', $relativeTo) as $dir) {
             $relative .= !empty($dir) ? '../' : '';
         }
 
         return $relative . $path;
     }
-
 }

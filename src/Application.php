@@ -18,7 +18,8 @@ class Application extends AbstractApplication
     private $userModules = array();
     private $userConfig = array();
 
-    public function loadParameters($env, $debug) {
+    public function loadParameters($env, $debug)
+    {
         $cwd = getcwd();
         $parameters = array(
             'application_dir' => $cwd,
@@ -34,7 +35,7 @@ class Application extends AbstractApplication
             $cfg = Yaml::parse(file_get_contents($yml));
 
             // parse dirs
-            foreach(array('cache_dir', 'data_dir', 'templates_dir', 'web_dir') as $paramName) {
+            foreach (array('cache_dir', 'data_dir', 'templates_dir', 'web_dir') as $paramName) {
                 $parameters[$paramName] = isset($cfg[$paramName]) ? $cwd .'/'. trim($cfg[$paramName], DS) : $parameters[$paramName];
             }
 
@@ -48,7 +49,8 @@ class Application extends AbstractApplication
         return $parameters;
     }
 
-    public function loadModules($env, $debug) {
+    public function loadModules($env, $debug)
+    {
         $modules = array(
             new \Splot\TwigModule\SplotTwigModule(),
             new \Splot\AssetsModule\SplotAssetsModule(),
@@ -57,7 +59,7 @@ class Application extends AbstractApplication
         );
 
         // load any user modules defined in the .genry.yml file
-        foreach($this->userModules as $name) {
+        foreach ($this->userModules as $name) {
             $modules[] = new $name();
         }
 
@@ -77,12 +79,14 @@ class Application extends AbstractApplication
         return new ContainerCache(new MemoryStore());
     }
 
-    public function configure() {
+    public function configure()
+    {
         parent::configure();
         $this->container->get('config')->apply($this->userConfig);
     }
 
-    public function run() {
+    public function run()
+    {
         if ($this->container->getParameter('mode') !== Framework::MODE_CONSOLE) {
             throw new \RuntimeException('Genry can only be run in console!');
         }

@@ -13,11 +13,13 @@ class Loader implements LoaderInterface
 
     protected $dataDir;
 
-    public function __construct($dataDir) {
+    public function __construct($dataDir)
+    {
         $this->dataDir = rtrim($dataDir, DS) . DS;
     }
 
-    public function load($name) {
+    public function load($name)
+    {
         $file = new SplFileInfo($this->dataDir . $name);
         if (!$file->isFile()) {
             throw new NotFoundException('Could not find data file '. $name .' in '. $this->dataDir);
@@ -33,8 +35,8 @@ class Loader implements LoaderInterface
         return $data;
     }
 
-    public function getDataDir() {
+    public function getDataDir()
+    {
         return $this->dataDir;
     }
-
 }

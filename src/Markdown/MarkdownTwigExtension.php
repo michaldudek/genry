@@ -16,24 +16,28 @@ class MarkdownTwigExtension extends Twig_Extension
 
     protected $templatesDir;
 
-    public function __construct(Markdown $markdown, $templatesDir) {
+    public function __construct(Markdown $markdown, $templatesDir)
+    {
         $this->markdown = $markdown;
         $this->templatesDir = rtrim($templatesDir, DS) . DS;
     }
 
-    public function getFunctions() {
+    public function getFunctions()
+    {
         return array(
             new Twig_SimpleFunction('markdown', array($this, 'parseMarkdownFile'), array('is_safe' => array('html')))
         );
     }
 
-    public function getFilters() {
+    public function getFilters()
+    {
         return array(
             new Twig_SimpleFilter('markdown', array($this, 'parseMarkdown'), array('is_safe' => array('html')))
         );
     }
 
-    public function parseMarkdownFile($file) {
+    public function parseMarkdownFile($file)
+    {
         $filePath = $this->templatesDir . trim($file, DS);
         if (!file_exists($filePath)) {
             throw new NotFoundException('Could not find '. $file .' in the templates dir '. $this->templatesDir);
@@ -43,12 +47,13 @@ class MarkdownTwigExtension extends Twig_Extension
         return $this->parseMarkdown($markdown);
     }
 
-    public function parseMarkdown($markdown) {
+    public function parseMarkdown($markdown)
+    {
         return $this->markdown->parse($markdown);
     }
 
-    public function getName() {
+    public function getName()
+    {
         return 'genry.markdown';
     }
-
 }

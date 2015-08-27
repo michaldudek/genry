@@ -15,14 +15,14 @@ class AssetsInjector
 
     /**
      * JavaScript container service.
-     * 
+     *
      * @var JavaScriptContainer
      */
     protected $javascripts;
 
     /**
      * Stylesheets container service.
-     * 
+     *
      * @var StylesheetContainer
      */
     protected $stylesheets;
@@ -39,7 +39,8 @@ class AssetsInjector
         $this->router = $router;
     }
 
-    public function onPageRendered(PageRendered $event) {
+    public function onPageRendered(PageRendered $event)
+    {
         $page = $event->getPage();
         $output = $event->getOutput();
 
@@ -58,13 +59,15 @@ class AssetsInjector
         $event->setOutput($output);
     }
 
-    protected function makeRelativeUrls(AssetsContainer $container, Page $relativeTo) {
-        foreach($container->getAssets() as $asset) {
+    protected function makeRelativeUrls(AssetsContainer $container, Page $relativeTo)
+    {
+        foreach ($container->getAssets() as $asset) {
             $this->makeRelativeUrl($asset, $relativeTo);
         }
     }
 
-    protected function makeRelativeUrl(Asset $asset, Page $relativeTo) {
+    protected function makeRelativeUrl(Asset $asset, Page $relativeTo)
+    {
         $url = $asset->getUrl();
 
         // omit external url's
@@ -75,5 +78,4 @@ class AssetsInjector
         $url = $this->router->generateLink($url, $relativeTo);
         $asset->setUrl($url);
     }
-
 }

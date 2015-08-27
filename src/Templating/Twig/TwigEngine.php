@@ -10,28 +10,30 @@ class TwigEngine implements TemplatingEngineInterface
 
     /**
      * Twig engine.
-     * 
+     *
      * @var Twig_Environment
      */
     protected $twig;
 
     /**
      * Constructor.
-     * 
+     *
      * @param Environment $twig Twig engine that has been overwritten in Genry.
      */
-    public function __construct(Twig_Environment $twig) {
+    public function __construct(Twig_Environment $twig)
+    {
         $this->twig = $twig;
     }
 
     /**
      * Renders a view found under the given name with the given variables to be interpolated.
-     * 
+     *
      * @param string $view View name.
      * @param array $data [optional] Any additional variables to be interpolated in the view template.
      * @return string
      */
-    public function render($view, array $data = array()) {
+    public function render($view, array $data = array())
+    {
         return $this->twig->render($view, $data);
     }
 
@@ -41,9 +43,9 @@ class TwigEngine implements TemplatingEngineInterface
      * This is called before regenerating the whole project to make sure
      * that no templates are cached.
      */
-    public function clearCache() {
+    public function clearCache()
+    {
         $this->twig->clearTemplateCache();
         $this->twig->clearCacheFiles();
     }
-
 }

@@ -8,12 +8,14 @@ class TemplateLoader extends Twig_Loader_Filesystem
 
     protected $templatesDir;
 
-    public function __construct($templatesDir) {
+    public function __construct($templatesDir)
+    {
         parent::__construct($templatesDir);
         $this->templatesDir = $templatesDir;
     }
 
-    public function isFresh($name, $time) {
+    public function isFresh($name, $time)
+    {
         // always force reload
         return false;
     }
@@ -26,5 +28,4 @@ class TemplateLoader extends Twig_Loader_Filesystem
         $key = parent::getCacheKey($name);
         return $key . filemtime($key);
     }
-
 }

@@ -16,16 +16,18 @@ class Page extends MagicObject
         'parameters' => array()
     );
 
-    public function setTemplateFile(SplFileInfo $templateFile) {
+    public function setTemplateFile(SplFileInfo $templateFile)
+    {
         $this->__properties['template_file'] = $templateFile;
     }
 
-    public function setOutputFile(SplFileInfo $outputFile) {
+    public function setOutputFile(SplFileInfo $outputFile)
+    {
         $this->__properties['output_file'] = $outputFile;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->getTemplateName();
     }
-
 }

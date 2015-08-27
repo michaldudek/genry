@@ -26,7 +26,7 @@ class Genry implements LoggerAwareInterface
 
     /**
      * Splot event manager.
-     * 
+     *
      * @var EventManager
      */
     protected $eventManager;
@@ -39,14 +39,14 @@ class Genry implements LoggerAwareInterface
 
     /**
      * Page generation queue.
-     * 
+     *
      * @var array
      */
     protected $queue = array();
 
     /**
      * Logger.
-     * 
+     *
      * @var LoggerInterface
      */
     protected $logger;
@@ -65,7 +65,8 @@ class Genry implements LoggerAwareInterface
         $this->logger = $logger ? $logger : new NullLogger();
     }
 
-    public function generateAll() {
+    public function generateAll()
+    {
         // force clearing cache before every generation
         $this->templating->clearCache();
 
@@ -73,7 +74,7 @@ class Genry implements LoggerAwareInterface
 
         $templates = FilesystemUtils::glob($this->templatesDir .'{,**/}*.html.twig', GLOB_BRACE);
 
-        foreach($templates as $template) {
+        foreach ($templates as $template) {
             // exclude if a partial template, ie. ends with ".inc.html.twig"
             if (preg_match('/\.inc\.html\.twig$/i', $template)) {
                 continue;
@@ -89,12 +90,14 @@ class Genry implements LoggerAwareInterface
         return true;
     }
 
-    public function generate($template, array $parameters = array(), $outputFile = null) {
+    public function generate($template, array $parameters = array(), $outputFile = null)
+    {
         $page = $this->createPage($template, $parameters, $outputFile);
         return $this->generatePage($page);
     }
 
-    public function generatePage(Page $page) {
+    public function generatePage(Page $page)
+    {
         if (!$page->getTemplateFile()->isFile()) {
             throw new NotFoundException('Could not find template to render: '. $page->getTemplateFile()->getPathname());
         }
@@ -125,7 +128,8 @@ class Genry implements LoggerAwareInterface
         return $output;
     }
 
-    public function createPage($template, array $parameters = array(), $outputFile = null) {
+    public function createPage($template, array $parameters = array(), $outputFile = null)
+    {
         $page = new Page();
 
         // if absolute path given then take a name from it
@@ -133,7 +137,7 @@ class Genry implements LoggerAwareInterface
             $page->setTemplateFile(new SplFileInfo($template));
             $page->setTemplateName($this->templateNameFromPath($template));
 
-        // if relative path given then build template location from the name
+            // if relative path given then build template location from the name
         } else {
             $page->setTemplateFile(new SplFileInfo($this->templatesDir . $template));
             $page->setTemplateName($template);
@@ -145,12 +149,12 @@ class Genry implements LoggerAwareInterface
             $page->setOutputFile(new SplFileInfo($outputPath));
             $page->setOutputName($this->outputNameFromPath($outputPath));
 
-        // if absolute path to output file given then take a name from it
+            // if absolute path to output file given then take a name from it
         } elseif (mb_substr($outputFile, 0, 1) === DS) {
             $page->setOutputFile(new SplFileInfo($outputFile));
             $page->setOutputName($this->outputNameFromPath($outputFile));
 
-        // if relative path to output given then build output location from the name
+            // if relative path to output given then build output location from the name
         } else {
             $page->setOutputFile(new SplFileInfo($this->webDir . $outputFile));
             $page->setOutputName($outputFile);
@@ -161,19 +165,20 @@ class Genry implements LoggerAwareInterface
         return $page;
     }
 
-    public function watch() {
+    public function watch()
+    {
         $lastModifications = array();
         $firstRun = true;
 
-        while(true) {
+        while (true) {
             // gather files from watchers on every check in case new files have appeared
             $files = array();
-            foreach($this->fileWatchers as $watcher) {
+            foreach ($this->fileWatchers as $watcher) {
                 $files = array_merge($files, $watcher->filesToWatch());
             }
 
             $modified = false;
-            foreach($files as $file) {
+            foreach ($files as $file) {
                 $modificationTime = filemtime($file);
 
                 // if a new file or a file that has been modified since last check
@@ -200,47 +205,55 @@ class Genry implements LoggerAwareInterface
         return false;
     }
 
-    public function addToQueue($template, array $parameters = array(), $outputFile = null) {
+    public function addToQueue($template, array $parameters = array(), $outputFile = null)
+    {
         $this->queue[] = $this->createPage($template, $parameters, $outputFile);
     }
 
-    public function processQueue() {
-        while(!empty($this->queue)) {
+    public function processQueue()
+    {
+        while (!empty($this->queue)) {
             $page = array_shift($this->queue);
             $this->generatePage($page);
         }
     }
 
-    public function getQueue() {
+    public function getQueue()
+    {
         return $this->queue;
     }
 
-    public function clearQueue() {
+    public function clearQueue()
+    {
         $this->queue = array();
     }
 
-    public function addFileWatcher(FileWatcherInterface $watcher) {
+    public function addFileWatcher(FileWatcherInterface $watcher)
+    {
         $this->fileWatchers[] = $watcher;
     }
 
-    public function templateNameFromPath($path) {
+    public function templateNameFromPath($path)
+    {
         return stripos($path, $this->templatesDir) === 0
             ? mb_substr($path, mb_strlen($this->templatesDir))
             : $path;
     }
 
-    public function outputPathFromTemplate($templateName) {
+    public function outputPathFromTemplate($templateName)
+    {
         return $this->webDir . mb_substr($templateName, 0, -5); // remove ".twig" from the end of the file
     }
 
-    public function outputNameFromPath($path) {
+    public function outputNameFromPath($path)
+    {
         return stripos($path, $this->webDir) === 0
             ? mb_substr($path, mb_strlen($this->webDir))
             : $path;
     }
 
-    public function setLogger(LoggerInterface $logger) {
+    public function setLogger(LoggerInterface $logger)
+    {
         $this->logger = $logger;
     }
-
 }

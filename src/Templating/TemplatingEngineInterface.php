@@ -13,5 +13,4 @@ interface TemplatingEngineInterface extends BaseTemplatingEngineInterface
      * that no templates are cached.
      */
     function clearCache();
-
 }

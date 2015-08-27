@@ -5,13 +5,14 @@ use Splot\Framework\Console\AbstractCommand;
 
 use Genry\Page;
 
-class Generate extends AbstractCommand 
+class Generate extends AbstractCommand
 {
 
     protected static $name = 'generate';
     protected static $description = 'Generate all static pages.';
 
-    public function execute() {
+    public function execute()
+    {
         $this->writeln('Generating...');
 
         $genry = $this->get('genry');
@@ -21,5 +22,4 @@ class Generate extends AbstractCommand
 
         $this->writeln('Done.');
     }
-
 }

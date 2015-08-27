@@ -5,5 +5,4 @@ interface FileWatcherInterface
 {
 
     function filesToWatch();
-
 }

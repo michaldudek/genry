@@ -14,17 +14,19 @@ class Writer implements WriterInterface
 
     /**
      * Filesystem service.
-     * 
+     *
      * @var Filesystem
      */
     protected $filesystem;
 
-    public function __construct(Filesystem $filesystem, $dataDir) {
+    public function __construct(Filesystem $filesystem, $dataDir)
+    {
         $this->filesystem = $filesystem;
         $this->dataDir = rtrim($dataDir, DS) . DS;
     }
 
-    public function write($name, array $data) {
+    public function write($name, array $data)
+    {
         // keep php 5.3 compatible
         $pretty = defined('JSON_PRETTY_PRINT') ? constant('JSON_PRETTY_PRINT') : null;
         
@@ -33,8 +35,8 @@ class Writer implements WriterInterface
         return true;
     }
 
-    public function getDataDir() {
+    public function getDataDir()
+    {
         return $this->dataDir;
     }
-
 }
