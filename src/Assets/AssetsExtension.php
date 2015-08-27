@@ -1,13 +1,13 @@
 <?php
-namespace MD\Genry\Assets;
+namespace Genry\Assets;
 
 use Splot\AssetsModule\Twig\Extension\AssetsExtension as BaseAssetsExtension;
 use Splot\AssetsModule\Assets\AssetsContainer\JavaScriptContainer;
 use Splot\AssetsModule\Assets\AssetsContainer\StylesheetContainer;
 use Splot\AssetsModule\Assets\AssetsFinder;
 
-use MD\Genry\Routing\Router;
-use MD\Genry\Page;
+use Genry\Routing\Router;
+use Genry\Page;
 
 class AssetsExtension extends BaseAssetsExtension
 {

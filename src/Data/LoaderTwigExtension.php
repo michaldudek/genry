@@ -1,9 +1,9 @@
 <?php
-namespace MD\Genry\Data;
+namespace Genry\Data;
 
 use Twig_Extension;
 
-use MD\Genry\Data\LoaderInterface;
+use Genry\Data\LoaderInterface;
 
 class LoaderTwigExtension extends Twig_Extension
 {

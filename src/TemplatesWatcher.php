@@ -1,9 +1,9 @@
 <?php
-namespace MD\Genry;
+namespace Genry;
 
 use MD\Foundation\Utils\FilesystemUtils;
 
-use MD\Genry\FileWatcher\FileWatcherInterface;
+use Genry\FileWatcher\FileWatcherInterface;
 
 class TemplatesWatcher implements FileWatcherInterface
 {

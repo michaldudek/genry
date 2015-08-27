@@ -1,9 +1,9 @@
 <?php
-namespace MD\Genry\Templating\Twig;
+namespace Genry\Templating\Twig;
 
 use Twig_Environment;
 
-use MD\Genry\Templating\TemplatingEngineInterface;
+use Genry\Templating\TemplatingEngineInterface;
 
 class TwigEngine implements TemplatingEngineInterface
 {

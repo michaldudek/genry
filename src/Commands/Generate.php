@@ -1,9 +1,9 @@
 <?php
-namespace MD\Genry\Commands;
+namespace Genry\Commands;
 
 use Splot\Framework\Console\AbstractCommand;
 
-use MD\Genry\Page;
+use Genry\Page;
 
 class Generate extends AbstractCommand 
 {

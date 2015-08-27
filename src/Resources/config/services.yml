@@ -1,0 +1,87 @@
+parameters:
+    event.page_rendered: Genry\Events\PageRendered
+
+services:
+
+    twig.template_loader:
+        class: Genry\Templating\Twig\TemplateLoader
+        arguments:
+            - %templates_dir%
+
+    templating:
+        class: Genry\Templating\Twig\TwigEngine
+        arguments:
+            - @twig
+
+    assets.twig_extension:
+        class: Genry\Assets\AssetsExtension
+        arguments:
+            - @assets.finder
+            - @assets.javascripts
+            - @assets.stylesheets
+            - @genry.router
+
+    genry.assets_injector:
+        class: Genry\Assets\AssetsInjector
+        arguments:
+            - @javascripts
+            - @stylesheets
+            - @genry.router
+        notify:
+            - ['@event_manager', 'subscribeService', ['%event.page_rendered', '@=', 'onPageRendered']]
+
+    genry.templates_watcher:
+        class: Genry\TemplatesWatcher
+        arguments:
+            - %templates_dir%
+        notify:
+            - ['@genry', 'addFileWatcher', ['@']]
+
+    data.loader:
+        class: Genry\Data\Loader
+        arguments:
+            - %data_dir%
+
+    data.writer:
+        class: Genry\Data\Writer
+        arguments:
+            - @filesystem
+            - %data_dir%
+
+    data.loader.twig_extension:
+        class: Genry\Data\LoaderTwigExtension
+        arguments:
+            - @data.loader
+        notify:
+            - ['@twig', 'addExtension', ['@']]
+
+    markdown:
+        class: Genry\Markdown\Markdown
+
+    markdown.twig_extension:
+        class: Genry\Markdown\MarkdownTwigExtension
+        arguments:
+            - @markdown
+            - %templates_dir%
+        notify:
+            - ['@twig', 'addExtension', ['@']]
+
+    genry:
+        class: Genry\Genry
+        arguments:
+             - @templating
+             - @event_manager
+             - %templates_dir%
+             - %web_dir%
+
+    genry.router:
+        class: Genry\Routing\Router
+        arguments:
+            - %web_dir%
+
+    genry.router_extension:
+        class: Genry\Routing\RouterExtension
+        arguments:
+            - @genry.router
+        notify:
+            - ['@twig', 'addExtension', ['@']]

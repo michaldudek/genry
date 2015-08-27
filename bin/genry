@@ -8,6 +8,6 @@ if (file_exists($autoload = __DIR__.'/../../../autoload.php')) {
 }
 
 use Splot\Framework\Framework;
-use MD\Genry\Application;
+use Genry\Application;
 
 Framework::run(new Application(), 'dev', true, Framework::MODE_CONSOLE);

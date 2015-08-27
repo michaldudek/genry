@@ -1,5 +1,5 @@
 <?php
-namespace MD\Genry\Data;
+namespace Genry\Data;
 
 interface LoaderInterface
 {

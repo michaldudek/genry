@@ -1,5 +1,5 @@
 <?php
-namespace MD\Genry\Markdown;
+namespace Genry\Markdown;
 
 use Twig_Extension;
 use Twig_SimpleFilter;
@@ -7,7 +7,7 @@ use Twig_SimpleFunction;
 
 use MD\Foundation\Exceptions\NotFoundException;
 
-use MD\Genry\Markdown\Markdown;
+use Genry\Markdown\Markdown;
 
 class MarkdownTwigExtension extends Twig_Extension
 {

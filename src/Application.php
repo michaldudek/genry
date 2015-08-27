@@ -1,46 +1,41 @@
 <?php
-namespace MD\Genry;
+namespace Genry;
 
 use MD\Foundation\Debug\Debugger;
 use Symfony\Component\Yaml\Yaml;
 
+use Splot\Cache\Store\MemoryStore;
 use Splot\Framework\Application\AbstractApplication;
+use Splot\Framework\DependencyInjection\ContainerCache;
 use Splot\Framework\Framework;
 
 class Application extends AbstractApplication
 {
 
     protected $name = 'Genry';
-    protected $version = '0.3.1';
+    protected $version = '0.4.0-dev';
 
     private $userModules = array();
     private $userConfig = array();
 
-    public function bootstrap(array $option = array()) {
-        if ($this->container->getParameter('mode') !== Framework::MODE_CONSOLE) {
-            throw new \RuntimeException('Genry can only be run in console!');
-        }
-        parent::bootstrap();
-    }
-
-    public function loadParameters() {
-        $cwd = getcwd() . DS;
+    public function loadParameters($env, $debug) {
+        $cwd = getcwd();
         $parameters = array(
             'application_dir' => $cwd,
             'root_dir' => $cwd,
-            'config_dir' => $cwd .'config'. DS,
-            'cache_dir' => $cwd .'.cache'. DS,
+            'config_dir' => $cwd .'/config',
+            'cache_dir' => $cwd .'/.cache',
             'web_dir' => $cwd,
-            'templates_dir' => $cwd .'_templates'. DS,
-            'data_dir' => $cwd .'_data'. DS
+            'templates_dir' => $cwd .'/_templates',
+            'data_dir' => $cwd .'/_data'
         );
 
-        if (file_exists($yml = $cwd . '.genry.yml')) {
+        if (file_exists($yml = $cwd . '/.genry.yml')) {
             $cfg = Yaml::parse(file_get_contents($yml));
 
             // parse dirs
             foreach(array('cache_dir', 'data_dir', 'templates_dir', 'web_dir') as $paramName) {
-                $parameters[$paramName] = isset($cfg[$paramName]) ? $cwd . trim($cfg[$paramName], DS) . DS : $parameters[$paramName];
+                $parameters[$paramName] = isset($cfg[$paramName]) ? $cwd .'/'. trim($cfg[$paramName], DS) : $parameters[$paramName];
             }
 
             // remember what modules to load
@@ -53,17 +48,12 @@ class Application extends AbstractApplication
         return $parameters;
     }
 
-    public function configure() {
-        parent::configure();
-        $this->container->get('config')->apply($this->userConfig);
-    }
-
-    public function loadModules() {
+    public function loadModules($env, $debug) {
         $modules = array(
             new \Splot\TwigModule\SplotTwigModule(),
             new \Splot\AssetsModule\SplotAssetsModule(),
 
-            new \MD\Genry\GenryModule()
+            new \Genry\GenryModule()
         );
 
         // load any user modules defined in the .genry.yml file
@@ -74,4 +64,28 @@ class Application extends AbstractApplication
         return $modules;
     }
 
+    /**
+     * Provide a cache for the container.
+     *
+     * @param string $env Env in which the app is ran.
+     * @param boolean $debug Is debug on?
+     *
+     * @return ContainerCache
+     */
+    public function provideContainerCache($env, $debug)
+    {
+        return new ContainerCache(new MemoryStore());
+    }
+
+    public function configure() {
+        parent::configure();
+        $this->container->get('config')->apply($this->userConfig);
+    }
+
+    public function run() {
+        if ($this->container->getParameter('mode') !== Framework::MODE_CONSOLE) {
+            throw new \RuntimeException('Genry can only be run in console!');
+        }
+        parent::run();
+    }
 }

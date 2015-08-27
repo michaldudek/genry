@@ -1,5 +1,5 @@
 <?php
-namespace MD\Genry;
+namespace Genry;
 
 use SplFileInfo;
 
@@ -12,12 +12,12 @@ use MD\Foundation\Utils\FilesystemUtils;
 
 use Splot\EventManager\EventManager;
 
-use MD\Genry\Events\DidGenerate;
-use MD\Genry\Events\PageRendered;
-use MD\Genry\Events\WillGenerate;
-use MD\Genry\FileWatcher\FileWatcherInterface;
-use MD\Genry\Templating\TemplatingEngineInterface;
-use MD\Genry\Page;
+use Genry\Events\DidGenerate;
+use Genry\Events\PageRendered;
+use Genry\Events\WillGenerate;
+use Genry\FileWatcher\FileWatcherInterface;
+use Genry\Templating\TemplatingEngineInterface;
+use Genry\Page;
 
 class Genry implements LoggerAwareInterface
 {

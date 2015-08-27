@@ -1,5 +1,5 @@
 <?php
-namespace MD\Genry\Templating;
+namespace Genry\Templating;
 
 use Splot\Framework\Templating\TemplatingEngineInterface as BaseTemplatingEngineInterface;
 

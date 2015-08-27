@@ -1,7 +1,7 @@
 <?php
-namespace MD\Genry\Routing;
+namespace Genry\Routing;
 
-use MD\Genry\Page;
+use Genry\Page;
 
 class Router
 {

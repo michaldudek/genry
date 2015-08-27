@@ -1,11 +1,11 @@
 <?php
-namespace MD\Genry\Data;
+namespace Genry\Data;
 
 use SplFileInfo;
 
 use Symfony\Component\Filesystem\Filesystem;
 
-use MD\Genry\Data\WriterInterface;
+use Genry\Data\WriterInterface;
 
 class Writer implements WriterInterface
 {

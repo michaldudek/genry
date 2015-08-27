@@ -1,5 +1,5 @@
 <?php
-namespace MD\Genry\Markdown;
+namespace Genry\Markdown;
 
 use Michelf\MarkdownExtra;
 

@@ -1,11 +1,11 @@
 <?php
-namespace MD\Genry\Routing;
+namespace Genry\Routing;
 
 use Twig_Extension;
 use Twig_SimpleFunction;
 
-use MD\Genry\Routing\Router;
-use MD\Genry\Page;
+use Genry\Routing\Router;
+use Genry\Page;
 
 class RouterExtension extends Twig_Extension
 {

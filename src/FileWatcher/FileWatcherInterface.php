@@ -1,5 +1,5 @@
 <?php
-namespace MD\Genry\FileWatcher;
+namespace Genry\FileWatcher;
 
 interface FileWatcherInterface
 {

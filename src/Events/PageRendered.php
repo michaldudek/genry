@@ -1,9 +1,9 @@
 <?php
-namespace MD\Genry\Events;
+namespace Genry\Events;
 
 use Splot\EventManager\AbstractEvent;
 
-use MD\Genry\Page;
+use Genry\Page;
 
 class PageRendered extends AbstractEvent
 {

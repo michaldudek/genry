@@ -1,11 +1,11 @@
 <?php
-namespace MD\Genry\Commands;
+namespace Genry\Commands;
 
 use MD\Foundation\Utils\FilesystemUtils;
 
 use Splot\Framework\Console\AbstractCommand;
 
-use MD\Genry\Page;
+use Genry\Page;
 
 class Watch extends AbstractCommand 
 {

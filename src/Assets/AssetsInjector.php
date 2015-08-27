@@ -1,14 +1,14 @@
 <?php
-namespace MD\Genry\Assets;
+namespace Genry\Assets;
 
 use Splot\AssetsModule\Assets\Asset;
 use Splot\AssetsModule\Assets\AssetsContainer;
 use Splot\AssetsModule\Assets\AssetsContainer\JavaScriptContainer;
 use Splot\AssetsModule\Assets\AssetsContainer\StylesheetContainer;
 
-use MD\Genry\Events\PageRendered;
-use MD\Genry\Routing\Router;
-use MD\Genry\Page;
+use Genry\Events\PageRendered;
+use Genry\Routing\Router;
+use Genry\Page;
 
 class AssetsInjector
 {

@@ -1,5 +1,5 @@
 <?php
-namespace MD\Genry\Templating\Twig;
+namespace Genry\Templating\Twig;
 
 use Twig_Loader_Filesystem;
 

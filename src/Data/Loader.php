@@ -1,12 +1,12 @@
 <?php
-namespace MD\Genry\Data;
+namespace Genry\Data;
 
 use SplFileInfo;
 use RuntimeException;
 
 use MD\Foundation\Exceptions\NotFoundException;
 
-use MD\Genry\Data\LoaderInterface;
+use Genry\Data\LoaderInterface;
 
 class Loader implements LoaderInterface
 {

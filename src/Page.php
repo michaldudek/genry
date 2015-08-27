@@ -1,5 +1,5 @@
 <?php
-namespace MD\Genry;
+namespace Genry;
 
 use MD\Foundation\MagicObject;
 

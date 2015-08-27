@@ -1,5 +1,5 @@
 <?php
-namespace MD\Genry\Events;
+namespace Genry\Events;
 
 use Splot\EventManager\AbstractEvent;
 
