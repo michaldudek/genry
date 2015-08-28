@@ -5,15 +5,55 @@ parameters:
 
 services:
 
+    genry:
+        class: Genry\Genry
+        arguments:
+             - @templating
+             - @event_manager
+             - %templates_dir%
+             - %web_dir%
+
+    genry.router:
+        class: Genry\Routing\Router
+        arguments:
+            - %web_dir%
+
+    genry.templates_watcher:
+        class: Genry\TemplatesWatcher
+        arguments:
+            - %templates_dir%
+        notify:
+            - ['@genry', 'addFileWatcher', ['@']]
+
+    genry.router_extension:
+        class: Genry\Routing\RouterExtension
+        arguments:
+            - @genry.router
+        notify:
+            - ['@twig', 'addExtension', ['@']]
+
+    # Templating and rendering
+    
+    templating:
+        class: Genry\Templating\Twig\TwigEngine
+        arguments:
+            - @twig
+
     twig.template_loader:
         class: Genry\Templating\Twig\TemplateLoader
         arguments:
             - %templates_dir%
 
-    templating:
-        class: Genry\Templating\Twig\TwigEngine
+    # Assets management
+    
+    genry.assets_injector:
+        class: Genry\Assets\AssetsInjector
         arguments:
-            - @twig
+            - @javascripts
+            - @stylesheets
+            - @genry.router
+        notify:
+            - ['@event_manager', 'subscribeService', ['%event.page_rendered%', '@=', 'onPageRendered']]
 
     assets.twig_extension:
         class: Genry\Assets\AssetsExtension
@@ -23,21 +63,7 @@ services:
             - @assets.stylesheets
             - @genry.router
 
-    genry.assets_injector:
-        class: Genry\Assets\AssetsInjector
-        arguments:
-            - @javascripts
-            - @stylesheets
-            - @genry.router
-        notify:
-            - ['@event_manager', 'subscribeService', ['%event.page_rendered', '@=', 'onPageRendered']]
-
-    genry.templates_watcher:
-        class: Genry\TemplatesWatcher
-        arguments:
-            - %templates_dir%
-        notify:
-            - ['@genry', 'addFileWatcher', ['@']]
+    # Data
 
     data.loader:
         class: Genry\Data\Loader
@@ -57,6 +83,8 @@ services:
         notify:
             - ['@twig', 'addExtension', ['@']]
 
+    # Misc
+
     markdown:
         class: Genry\Markdown\Markdown
 
@@ -65,25 +93,5 @@ services:
         arguments:
             - @markdown
             - %templates_dir%
-        notify:
-            - ['@twig', 'addExtension', ['@']]
-
-    genry:
-        class: Genry\Genry
-        arguments:
-             - @templating
-             - @event_manager
-             - %templates_dir%
-             - %web_dir%
-
-    genry.router:
-        class: Genry\Routing\Router
-        arguments:
-            - %web_dir%
-
-    genry.router_extension:
-        class: Genry\Routing\RouterExtension
-        arguments:
-            - @genry.router
         notify:
             - ['@twig', 'addExtension', ['@']]
