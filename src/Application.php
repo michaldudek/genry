@@ -39,11 +39,60 @@ class Application extends AbstractApplication
     private $userModules = array();
 
     /**
+     * User parameters.
+     *
+     * @var array
+     */
+    private $userParameters = array();
+
+    /**
      * Custom user config.
      *
      * @var array
      */
     private $userConfig = array();
+
+    /**
+     * Current working dir.
+     *
+     * @var string
+     */
+    private $cwd;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->cwd = getcwd();
+
+        $this->userParameters = array(
+            'application_dir' => $this->cwd,
+            'root_dir' => $this->cwd,
+            'config_dir' => $this->cwd .'/config',
+            'cache_dir' => $this->cwd .'/.cache',
+            'web_dir' => $this->cwd,
+            'templates_dir' => $this->cwd .'/_templates',
+            'data_dir' => $this->cwd .'/_data'
+        );
+
+        if (file_exists($yml = $this->cwd . '/.genry.yml')) {
+            $cfg = Yaml::parse(file_get_contents($yml));
+
+            // parse dirs
+            foreach (array('cache_dir', 'data_dir', 'templates_dir', 'web_dir') as $paramName) {
+                $this->userParameters[$paramName] = isset($cfg[$paramName])
+                    ? $this->cwd .'/'. trim($cfg[$paramName], DS)
+                    : $this->userParameters[$paramName];
+            }
+
+            // remember what modules to load
+            $this->userModules = isset($cfg['modules']) && is_array($cfg['modules']) ? $cfg['modules'] : array();
+
+            // everything left will be stored in the config
+            $this->userConfig = $cfg;
+        }
+    }
 
     /**
      * Returns application specific parameters.
@@ -55,35 +104,7 @@ class Application extends AbstractApplication
      */
     public function loadParameters($env, $debug)
     {
-        $cwd = getcwd();
-        $parameters = array(
-            'application_dir' => $cwd,
-            'root_dir' => $cwd,
-            'config_dir' => $cwd .'/config',
-            'cache_dir' => $cwd .'/.cache',
-            'web_dir' => $cwd,
-            'templates_dir' => $cwd .'/_templates',
-            'data_dir' => $cwd .'/_data'
-        );
-
-        if (file_exists($yml = $cwd . '/.genry.yml')) {
-            $cfg = Yaml::parse(file_get_contents($yml));
-
-            // parse dirs
-            foreach (array('cache_dir', 'data_dir', 'templates_dir', 'web_dir') as $paramName) {
-                $parameters[$paramName] = isset($cfg[$paramName])
-                    ? $cwd .'/'. trim($cfg[$paramName], DS)
-                    : $parameters[$paramName];
-            }
-
-            // remember what modules to load
-            $this->userModules = isset($cfg['modules']) && is_array($cfg['modules']) ? $cfg['modules'] : array();
-
-            // everything left will be stored in the config
-            $this->userConfig = $cfg;
-        }
-
-        return $parameters;
+        return $this->userParameters;
     }
 
     /**
