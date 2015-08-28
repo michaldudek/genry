@@ -96,7 +96,7 @@ class Genry implements LoggerAwareInterface
     ) {
         $this->templating = $templating;
         $this->eventManager = $eventManager;
-        $this->templatesDir = $templatesDir;
+        $this->templatesDir = rtrim($templatesDir, '/') .'/';
         $this->webDir = rtrim($webDir, '/') .'/';
         $this->logger = $logger ? $logger : new NullLogger();
     }
