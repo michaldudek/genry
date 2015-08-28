@@ -46,13 +46,6 @@ class Application extends AbstractApplication
     private $userParameters = array();
 
     /**
-     * Custom user config.
-     *
-     * @var array
-     */
-    private $userConfig = array();
-
-    /**
      * Current working dir.
      *
      * @var string
@@ -69,7 +62,7 @@ class Application extends AbstractApplication
         $this->userParameters = array(
             'application_dir' => $this->cwd,
             'root_dir' => $this->cwd,
-            'config_dir' => $this->cwd .'/config',
+            'config_dir' => $this->cwd,
             'cache_dir' => $this->cwd .'/.cache',
             'web_dir' => $this->cwd,
             'templates_dir' => $this->cwd .'/_templates',
@@ -90,7 +83,7 @@ class Application extends AbstractApplication
             $this->userModules = isset($cfg['modules']) && is_array($cfg['modules']) ? $cfg['modules'] : array();
 
             // everything left will be stored in the config
-            $this->userConfig = $cfg;
+            $this->userParameters['config'] = $cfg;
         }
     }
 
@@ -143,15 +136,6 @@ class Application extends AbstractApplication
     public function provideContainerCache($env, $debug)
     {
         return new ContainerCache(new MemoryStore());
-    }
-
-    /**
-     * Configures the application.
-     */
-    public function configure()
-    {
-        parent::configure();
-        $this->container->get('config')->apply($this->userConfig);
     }
 
     /**
